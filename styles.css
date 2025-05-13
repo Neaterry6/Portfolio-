@@ -6,17 +6,42 @@ body {
     margin: 0;
     padding: 0;
     text-align: center;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Light Mode */
+.light-mode {
+    background-color: #ffffff;
+    color: #000000;
 }
 
 /* Header */
 header {
     padding: 20px;
     background-color: #1f1f1f;
+    transition: background 0.3s;
+}
+
+.light-mode header {
+    background-color: #f3f3f3;
+}
+
+/* Profile Styling */
+.profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
 
 .profile-img {
-    width: 150px;
+    width: 120px;
     border-radius: 50%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.profile-text {
+    text-align: left;
 }
 
 /* Navigation */
@@ -34,6 +59,10 @@ nav ul li a {
     color: #ffffff;
     text-decoration: none;
     font-size: 18px;
+}
+
+.light-mode nav ul li a {
+    color: #000000;
 }
 
 /* GitHub Stats */
@@ -58,9 +87,29 @@ section {
     text-decoration: none;
 }
 
-/* Footer */
 footer {
     padding: 20px;
     background-color: #1f1f1f;
     font-size: 14px;
+}
+
+.light-mode footer {
+    background-color: #f3f3f3;
+}
+
+/* Theme Toggle Button */
+#theme-toggle {
+    padding: 10px;
+    margin: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    background: #0077ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.light-mode #theme-toggle {
+    background: #222;
+    color: white;
 }
