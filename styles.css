@@ -1,0 +1,97 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Header */
+header {
+    padding: 20px;
+    background-color: #1f1f1f;
+}
+
+.profile-img {
+    width: 150px;
+    border-radius: 50%;
+}
+
+/* Navigation */
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 15px;
+}
+
+nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* GitHub Stats */
+.github-stats img {
+    width: 100%;
+    max-width: 450px;
+    margin: 10px auto;
+    display: block;
+}
+
+/* Sections */
+section {
+    padding: 40px;
+}
+
+/* Writing Button */
+.button {
+    background-color: #0077ff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* Footer */
+footer {
+    padding: 20px;
+    background-color: #1f1f1f;
+    font-size: 14px;
+}
+
+/* Loader Animation */
+#loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #121212;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid white;
+    border-top-color: #0077ff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Hide Content Until Loaded */
+.hidden {
+    display: none;
+  
