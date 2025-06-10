@@ -1,81 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>𝕳𝖊𝖎𝖘 𝕭𝖗𝖔𝖐𝖊𝖓 - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for additional flair */
+        .profile-img {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .github-stats img {
+            max-width: 100%;
+            height: auto;
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 font-sans">
 
     <!-- Theme Toggle Button -->
-    <button id="theme-toggle">🌙 Toggle Theme</button>
+    <button id="theme-toggle" class="fixed top-4 right-4 p-2 bg-gray-200 dark:bg-gray-800 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors duration-200 z-50">
+        <span class="dark:hidden">🌙</span>
+        <span class="hidden dark:inline">☀️</span>
+    </button>
 
-    <div id="content">
-        <header>
-            <div class="profile-container">
-                <img src="https://files.catbox.moe/la0rsq.jpg" alt="Profile Image" class="profile-img">
+    <div id="content" class="max-w-5xl mx-auto p-6">
+        <!-- Header -->
+        <header class="text-center mb-12 fade-in">
+            <div class="profile-container flex flex-col items-center md:flex-row md:items-start gap-6">
+                <img src="https://files.catbox.moe/la0rsq.jpg" alt="Profile Image" class="profile-img w-32 h-32 md:w-48 md:h-48 rounded-full object-cover border-4 border-indigo-500 dark:border-indigo-400">
                 <div class="profile-text">
-                    <h1>Hey, I'm 𝕳𝖊𝖎𝖘 𝕭𝖗𝖔𝖐𝖊𝖓</h1>
-                    <p>Developer | Writer | Storyteller</p>
+                    <h1 class="text-4xl md:text-5xl font-bold text-indigo-600 dark:text-indigo-400">𝕳𝖊𝖎𝖘 𝕭𝖗𝖔𝖐𝖊𝖓</h1>
+                    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mt-2">Developer | Writer | Storyteller</p>
+                    <p class="mt-4 text-gray-700 dark:text-gray-200">Check out my music platform: <a href="https://streame-id.vercel.app/" target="_blank" class="text-indigo-500 dark:text-indigo-400 hover:underline font-semibold">Streame ID</a></p>
                 </div>
             </div>
         </header>
 
-        <nav>
-            <ul>
-                <li><a href="#about">About Me</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#github">GitHub Activity</a></li>
-                <li><a href="#writing">Writing</a></li>
-                <li><a href="#contact">Contact</a></li>
+        <!-- Navigation -->
+        <nav class="mb-12">
+            <ul class="flex flex-wrap justify-center gap-4 md:gap-8 text-lg">
+                <li><a href="#about" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">About Me</a></li>
+                <li><a href="#projects" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Projects</a></li>
+                <li><a href="#github" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">GitHub Activity</a></li>
+                <li><a href="#writing" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Writing</a></li>
+                <li><a href="#contact" class="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">Contact</a></li>
             </ul>
         </nav>
 
-        <section id="about">
-            <h2>About Me</h2>
-            <p>I'm a passionate developer with expertise in modern web technologies. I also write captivating stories and poetry, blending creativity with logic.</p>
+        <!-- About Section -->
+        <section id="about" class="mb-16 fade-in">
+            <h2 class="text-3xl font-semibold text-indigo-600 dark:text-indigo-400 mb-4">About Me</h2>
+            <p class="text-gray-700 dark:text-gray-200 leading-relaxed">I'm a passionate developer with expertise in modern web technologies. I also write captivating stories and poetry, blending creativity with logic. My work bridges the gap between code and art, crafting experiences that inspire.</p>
         </section>
 
-        <section id="projects">
-            <h2>Projects</h2>
-            <ul>
-                <li><a href="https://github.com/Neaterry6" target="_blank">GitHub Portfolio</a></li>
+        <!-- Projects Section -->
+        <section id="projects" class="mb-16 fade-in">
+            <h2 class="text-3xl font-semibold text-indigo-600 dark:text-indigo-400 mb-4">Projects</h2>
+            <ul class="list-disc list-inside text-gray-700 dark:text-gray-200">
+                <li><a href="https://github.com/Neaterry6" target="_blank" class="text-indigo-500 dark:text-indigo-400 hover:underline">GitHub Portfolio</a></li>
+                <li><a href="https://streame-id.vercel.app/" target="_blank" class="text-indigo-500 dark:text-indigo-400 hover:underline">Streame ID - My Music Platform</a></li>
             </ul>
         </section>
 
-        <section id="github">
-            <h2>GitHub Activity</h2>
-            <div class="github-stats">
-                <img src="https://github-readme-stats.vercel.app/api?username=Neaterry6&show_icons=true&theme=dark" alt="GitHub Stats">
-                <img src="https://github-readme-streak-stats.herokuapp.com/?user=Neaterry6&theme=dark" alt="GitHub Streak">
-                <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Neaterry6&theme=dark" alt="GitHub Profile Summary">
+        <!-- GitHub Activity Section -->
+        <section id="github" class="mb-16 fade-in">
+            <h2 class="text-3xl font-semibold text-indigo-600 dark:text-indigo-400 mb-4">GitHub Activity</h2>
+            <div class="github-stats grid grid-cols-1 md:grid-cols-2 gap-6">
+                <img src="https://github-readme-stats.vercel.app/api?username=Neaterry6&show_icons=true&theme=dark" alt="GitHub Stats" class="rounded-lg shadow-md">
+                <img src="https://github-readme-streak-stats.herokuapp.com/?user=Neaterry6&theme=dark" alt="GitHub Streak" class="rounded-lg shadow-md">
+                <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Neaterry6&theme=dark" alt="GitHub Profile Summary" class="rounded-lg shadow-md md:col-span-2">
             </div>
         </section>
 
-        <section id="writing">
-            <h2>My Writing</h2>
-            <p>I write stories and poems that inspire and engage readers. Check out my writing here:</p>
-            <a href="https://whatsapp.com/channel/0029Vb63QCJ9Gv7Q5ec5rt3e" target="_blank" class="button">Visit My Channel</a>
+        <!-- Writing Section -->
+        <section id="writing" class="mb-16 fade-in">
+            <h2 class="text-3xl font-semibold text-indigo-600 dark:text-indigo-400 mb-4">My Writing</h2>
+            <p class="text-gray-700 dark:text-gray-200 leading-relaxed mb-4">I write stories and poems that inspire and engage readers. Check out my writing and explore my music platform for more creative content!</p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="https://whatsapp.com/channel/0029Vb63QCJ9Gv7Q5ec5rt3e" target="_blank" class="inline-block px-6 py-3 bg-indigo-500 dark:bg-indigo-600 text-white rounded-lg hover:bg-indigo-600 dark:hover:bg-indigo-700 transition-colors duration-200">Visit My Channel</a>
+                <a href="https://streame-id.vercel.app/" target="_blank" class="inline-block px-6 py-3 bg-green-500 dark:bg-green-600 text-white rounded-lg hover:bg-green-600 dark:hover:bg-green-700 transition-colors duration-200">Try Streame ID</a>
+            </div>
         </section>
 
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>Connect with me on:</p>
-            <ul>
-                <li><a href="https://www.linkedin.com/in/akewushola-abdulbakri-659458365" target="_blank">LinkedIn</a></li>
-                <li><a href="https://github.com/Neaterry6" target="_blank">GitHub</a></li>
-                <li><a href="https://www.facebook.com/profile.php?id=61575627958849" target="_blank">Facebook</a></li>
-                <li><a href="https://t.me/Heartbreak798453" target="_blank">Telegram</a></li>
-                <li><a href="https://wa.me/2348039896597" target="_blank">WhatsApp</a></li>
+        <!-- Contact Section -->
+        <section id="contact" class="mb-16 fade-in">
+            <h2 class="text-3xl font-semibold text-indigo-600 dark:text-indigo-400 mb-4">Contact</h2>
+            <p class="text-gray-700 dark:text-gray-200 mb-4">Connect with me on:</p>
+            <ul class="list-disc list-inside text-gray-700 dark:text-gray-200 space-y-2">
+                <li><a href="https://www.linkedin.com/in/akewushola-abdulbakri-659458365" target="_blank" class="text-indigo-500 dark:text-indigo-400 hover:underline">LinkedIn</a></li>
+                <li><a href="https://github.com/Neaterry6" target="_blank" class="text-indigo-500 dark:text-indigo-400 hover:underline">GitHub</a></li>
+                <li><a href="https://www.facebook.com/profile.php?id=61575627958849" target="_blank" class="text-indigo-500 dark:text-indigo-400 hover:underline">Facebook</a></li>
+                <li><a href="https://t.me/Heartbreak798453" target="_blank" class="text-indigo-500 dark:text-indigo-400 hover:underline">Telegram</a></li>
+                <li><a href="https://wa.me/2348039896597" target="_blank" class="text-indigo-500 dark:text-indigo-400 hover:underline">WhatsApp</a></li>
             </ul>
         </section>
 
-        <footer>
-            <p>© 2025 𝕳𝖊𝖎𝖘 𝕭𝖗𝖔𝖐𝖊𝖓</p>
+        <!-- Footer -->
+        <footer class="text-center text-gray-600 dark:text-gray-400 fade-in">
+            <p>© 2025 𝕳𝖊𝖎𝖘 𝕭𝖗𝖔𝖐𝖊𝖓. All rights reserved.</p>
         </footer>
     </div>
 
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        // Load theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+        });
+    </script>
 </body>
     </html>
