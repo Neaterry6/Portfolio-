@@ -48,8 +48,21 @@
     /* profile card hover */
     .profile-card:hover { transform: translateY(-6px); box-shadow: 0 16px 50px rgba(14,165,233,0.08); }
 
+    /* carousel horizontal scroll */
+    .carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1rem; padding: 1rem 0; scrollbar-width: none; -ms-overflow-style: none; }
+    .carousel::-webkit-scrollbar { display: none; }
+    .carousel-card { flex: 0 0 auto; width: 100%; max-width: 300px; scroll-snap-align: start; }
+
     /* responsive tweaks */
-    @media (max-width: 768px) { .hide-sm { display:none; } }
+    @media (max-width: 768px) { 
+      .hide-sm { display:none; } 
+      .profile-card { margin-top: 1rem; }
+      .grid-cols-mobile { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .hero-grid { grid-template-columns: 1fr !important; }
+      .contact-grid { grid-template-columns: 1fr !important; }
+    }
   </style>
 </head>
 
@@ -78,10 +91,10 @@
   </div>
 
   <!-- Page container -->
-  <div class="min-h-screen max-w-6xl mx-auto px-6 py-10 relative z-10">
+  <div class="min-h-screen max-w-6xl mx-auto px-4 sm:px-6 py-10 relative z-10">
 
     <!-- Top nav -->
-    <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center justify-between mb-8 flex-col sm:flex-row gap-4 sm:gap-0">
       <div class="flex items-center gap-4">
         <div class="w-12 h-12 rounded-xl glass flex items-center justify-center">
           <span style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:700;">BV</span>
@@ -118,11 +131,11 @@
     </div>
 
     <!-- Hero + Profile card -->
-    <header class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mb-10">
+    <header class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mb-10 hero-grid">
       <div class="md:col-span-2 glass p-6 rounded-2xl">
-        <div class="flex items-start gap-5">
-          <img src="https://files.catbox.moe/la0rsq.jpg" alt="Broken Vzn avatar" class="w-28 h-28 rounded-full object-cover border-2 border-white/8 shadow-lg" />
-          <div>
+        <div class="flex items-start gap-5 flex-col sm:flex-row">
+          <img src="https://files.catbox.moe/la0rsq.jpg" alt="Broken Vzn avatar" class="w-28 h-28 rounded-full object-cover border-2 border-white/8 shadow-lg flex-shrink-0" />
+          <div class="flex-1">
             <h1 id="heroName" class="text-3xl font-extrabold">Broken Vzn</h1>
             <p id="heroSubtitle" class="mt-1 text-sm" style="color:var(--muted-dark)">Full Stack Developer & Writer — I blend craft, performance and narrative to build meaningful experiences.</p>
 
@@ -136,58 +149,87 @@
         </div>
 
         <p class="mt-6 text-sm leading-relaxed" id="heroBio" style="color:var(--muted-dark)">
-          I build interfaces, backends and short stories. My work focuses on clarity, small delightful details and creative experimentation — performance-first code with a human voice.
+          I build interfaces, backends and short stories. My work focuses on clarity, small delightful details and creative experimentation — performance-first code with a human voice. Passionate about turning ideas into interactive realities, one commit at a time.
         </p>
 
-        <div class="mt-6 flex gap-3">
+        <div class="mt-6 flex gap-3 flex-wrap">
           <button class="px-4 py-2 rounded-md border border-white/6" data-tab="work">View Work</button>
           <button class="px-4 py-2 rounded-md" style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2));" data-tab="channels">Channels & Updates</button>
         </div>
       </div>
 
-      <!-- Profile card (compact) -->
-      <aside id="profileCard" class="glass p-4 rounded-2xl profile-card transition-transform duration-300">
-        <div class="flex items-center gap-3">
-          <img src="https://files.catbox.moe/la0rsq.jpg" alt="avatar" class="w-14 h-14 rounded-lg object-cover" />
+      <!-- Profile card (larger) -->
+      <aside id="profileCard" class="glass p-6 rounded-2xl profile-card transition-transform duration-300 md:col-span-1">
+        <div class="flex items-center gap-3 mb-4">
+          <img src="https://files.catbox.moe/la0rsq.jpg" alt="avatar" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
           <div>
-            <div id="cardName" class="font-semibold">Broken Vzn</div>
-            <div class="text-xs" style="color:var(--muted-dark)">Full Stack Developer</div>
+            <div id="cardName" class="font-semibold text-lg">Broken Vzn</div>
+            <div class="text-sm" style="color:var(--muted-dark)">Full Stack Developer & Writer</div>
           </div>
         </div>
 
-        <p class="text-xs mt-3" style="color:var(--muted-dark)">Creator of apps, APIs and short stories. Neat, fast, and poetic.</p>
+        <p class="text-sm mb-4 leading-relaxed" style="color:var(--muted-dark)">Creator of apps, APIs, bots, and poetic narratives. Neat, fast, resilient code meets raw, urban-inspired stories. Exploring AI integrations, mobile-first designs, and serialized fiction that hits like street art.</p>
 
-        <div class="mt-4 flex items-center justify-between">
+        <div class="mb-4">
+          <h4 class="font-semibold text-sm mb-2" style="color:var(--text-light)">Featured Shots</h4>
+          <div class="flex gap-2">
+            <img src="https://h.uguu.se/lQfgLkCH.jpg" alt="Profile shot 1" class="w-1/2 rounded-lg object-cover border border-white/10" />
+            <img src="https://h.uguu.se/djyxGPiP.jpg" alt="Profile shot 2" class="w-1/2 rounded-lg object-cover border border-white/10" />
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h4 class="font-semibold text-sm mb-2" style="color:var(--text-light)">Recent Updates</h4>
+          <ul class="text-xs space-y-1" style="color:var(--muted-dark)">
+            <li>• New WhatsApp bot commands live</li>
+            <li>• Flux AI image gen integrated</li>
+            <li>• Mobile-responsive portfolio refresh</li>
+            <li>• Chapter 10 of "Wahala for No 7" dropped</li>
+          </ul>
+        </div>
+
+        <div class="mb-4">
+          <h4 class="font-semibold text-sm mb-2" style="color:var(--text-light)">GitHub Repos</h4>
+          <ul class="text-xs space-y-1" style="color:var(--muted-dark)">
+            <li><a href="https://github.com/Neaterry6/3d-portfolio-card-master" target="_blank" class="hover:underline">3D Portfolio Card</a> — Interactive 3D demo</li>
+            <li><a href="https://github.com/Neaterry6/cbt-platform" target="_blank" class="hover:underline">CBT Platform</a> — Exam app with analytics</li>
+            <li><a href="https://github.com/Neaterry6/brokenvzn-api" target="_blank" class="hover:underline">BrokenVZN API</a> — Auth & utility endpoints</li>
+            <li><a href="https://github.com/Neaterry6/streame-id" target="_blank" class="hover:underline">StreamMe</a> — Music streaming for creators</li>
+            <li><a href="https://github.com/Neaterry6/whatsapp-bot" target="_blank" class="hover:underline">WhatsApp Bot</a> — AI-powered commands</li>
+          </ul>
+        </div>
+
+        <div class="flex items-center justify-between">
           <a href="https://github.com/Neaterry6" target="_blank" class="px-3 py-2 rounded-md text-sm" style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2)); color:white;">GitHub</a>
-          <div class="text-xs" style="color:var(--muted-dark)">Location: Lagos</div>
+          <div class="text-xs" style="color:var(--muted-dark)">Lagos, NG</div>
         </div>
       </aside>
     </header>
 
     <!-- Tab nav (desktop) -->
-    <nav class="mb-8 hidden md:flex items-center gap-4">
-      <button class="tab-btn active px-4 py-2 rounded-md text-sm glass" data-tab="about">About</button>
-      <button class="tab-btn px-4 py-2 rounded-md text-sm glass" data-tab="work">Work</button>
-      <button class="tab-btn px-4 py-2 rounded-md text-sm glass" data-tab="channels">Channels</button>
-      <button class="tab-btn px-4 py-2 rounded-md text-sm glass" data-tab="writing">Writing</button>
-      <button class="tab-btn px-4 py-2 rounded-md text-sm glass" data-tab="card">3D Card</button>
-      <button class="tab-btn px-4 py-2 rounded-md text-sm glass" data-tab="contact">Contact</button>
+    <nav class="mb-8 hidden md:flex items-center gap-4 overflow-x-auto">
+      <button class="tab-btn active px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="about">About</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="work">Work</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="channels">Channels</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="writing">Writing</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="card">3D Card</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="contact">Contact</button>
     </nav>
 
     <!-- Main tabs -->
     <main class="space-y-8">
       <!-- ABOUT -->
       <section id="about" class="tab-content active tab-enter tab-enter-active glass p-6 rounded-2xl">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between flex-col sm:flex-row gap-4">
           <h2 class="text-2xl font-bold">About</h2>
           <div class="w-24 accent-line rounded-full"></div>
         </div>
 
         <p class="mt-4 text-sm leading-relaxed" id="aboutText" style="color:var(--muted-dark)">
-          I'm <strong>Broken Vzn</strong>, a Full Stack Developer and writer. I create web apps and APIs, design intuitive frontends, and write short fiction and poems that give my projects personality.
+          I'm <strong>Broken Vzn</strong>, a Full Stack Developer and writer. I create web apps and APIs, design intuitive frontends, and write short fiction and poems that give my projects personality. From Lagos streets to code commits, I craft experiences that resonate — resilient, raw, and real.
         </p>
 
-        <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 grid-cols-mobile">
           <div class="glass p-4 rounded-lg light">
             <div class="text-sm text-gray-500">Primary</div>
             <div class="font-semibold mt-1" style="color:var(--text-dark)">Full Stack Dev</div>
@@ -209,13 +251,13 @@
       <!-- WORK -->
       <section id="work" class="tab-content tab-enter tab-enter-active">
         <div class="glass p-6 rounded-2xl">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between flex-col sm:flex-row gap-4">
             <h2 class="text-2xl font-bold">Selected Work</h2>
             <div class="text-xs" style="color:var(--muted-dark)">Open to view</div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
-            <a href="https://cbt-3unx.orender.com/" target="_blank" class="glass p-6 rounded-xl hover:scale-[1.01] transition">
+          <div class="carousel mt-4">
+            <a href="https://cbt-3unx.orender.com/" target="_blank" class="carousel-card glass p-6 rounded-xl hover:scale-[1.01] transition">
               <div class="flex gap-4">
                 <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#3b82f6] to-[#0ea5e9] flex items-center justify-center text-white font-bold">CB</div>
                 <div>
@@ -225,7 +267,7 @@
               </div>
             </a>
 
-            <a href="https://brokenvznapi-1.orender.com/" target="_blank" class="glass p-6 rounded-xl hover:scale-[1.01] transition">
+            <a href="https://brokenvznapi-1.orender.com/" target="_blank" class="carousel-card glass p-6 rounded-xl hover:scale-[1.01] transition">
               <div class="flex gap-4">
                 <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#3b82f6] to-[#0ea5e9] flex items-center justify-center text-white font-bold">API</div>
                 <div>
@@ -235,7 +277,7 @@
               </div>
             </a>
 
-            <a href="https://streame-id.vercel.app/" target="_blank" class="glass p-6 rounded-xl hover:scale-[1.01] transition">
+            <a href="https://streame-id.vercel.app/" target="_blank" class="carousel-card glass p-6 rounded-xl hover:scale-[1.01] transition">
               <div class="flex gap-4">
                 <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#3b82f6] to-[#0ea5e9] flex items-center justify-center text-white font-bold">SM</div>
                 <div>
@@ -245,7 +287,7 @@
               </div>
             </a>
 
-            <div class="glass p-6 rounded-xl">
+            <div class="carousel-card glass p-6 rounded-xl">
               <div class="flex gap-4">
                 <div class="w-12 h-12 rounded-lg bg-gray-700 flex items-center justify-center text-white font-bold">+</div>
                 <div>
@@ -261,14 +303,14 @@
       <!-- CHANNELS -->
       <section id="channels" class="tab-content tab-enter tab-enter-active">
         <div class="glass p-6 rounded-2xl">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between flex-col sm:flex-row gap-4">
             <h2 class="text-2xl font-bold">Channels & Updates</h2>
             <div class="text-xs" style="color:var(--muted-dark)">Join to stay updated</div>
           </div>
 
           <p class="text-sm mt-2" style="color:var(--muted-dark)">Channels for writing drops, releases and behind-the-scenes notes.</p>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
             <a href="https://whatsapp.com/channel/0029VbBGFatDOQIelCMp4R29" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
               <div>
                 <div class="flex items-center gap-3">
@@ -344,6 +386,63 @@
                 <div class="px-2 py-1 rounded-full bg-white/5">Open</div>
               </div>
             </a>
+
+            <a href="https://discord.com/users/broken015002" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-indigo-500 flex items-center justify-center text-white font-bold">D</div>
+                  <div>
+                    <div class="font-semibold">Discord</div>
+                    <div class="text-xs" style="color:var(--muted-dark)">broken015002</div>
+                  </div>
+                </div>
+
+                <p class="text-xs mt-3" style="color:var(--muted-dark)">Chat about code, stories, or collabs.</p>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between text-xs" style="color:var(--muted-dark)">
+                <div>DM me</div>
+                <div class="px-2 py-1 rounded-full bg-white/5">Connect</div>
+              </div>
+            </a>
+
+            <a href="https://creator.nightcafe.studio/u/Heisbroken" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-purple-500 flex items-center justify-center text-white font-bold">NC</div>
+                  <div>
+                    <div class="font-semibold">NightCafe</div>
+                    <div class="text-xs" style="color:var(--muted-dark)">AI Art Creations</div>
+                  </div>
+                </div>
+
+                <p class="text-xs mt-3" style="color:var(--muted-dark)">Generated visuals and experiments.</p>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between text-xs" style="color:var(--muted-dark)">
+                <div>Gallery</div>
+                <div class="px-2 py-1 rounded-full bg-white/5">View</div>
+              </div>
+            </a>
+
+            <a href="https://x.com/LoliPop55697" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center text-white font-bold">X</div>
+                  <div>
+                    <div class="font-semibold">X (Twitter)</div>
+                    <div class="text-xs" style="color:var(--muted-dark)">@LoliPop55697</div>
+                  </div>
+                </div>
+
+                <p class="text-xs mt-3" style="color:var(--muted-dark)">Quick thoughts, updates, and vibes.</p>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between text-xs" style="color:var(--muted-dark)">
+                <div>Follow</div>
+                <div class="px-2 py-1 rounded-full bg-white/5">Open</div>
+              </div>
+            </a>
           </div>
         </div>
       </section>
@@ -352,17 +451,17 @@
       <section id="writing" class="tab-content tab-enter tab-enter-active">
         <div class="glass p-6 rounded-2xl">
           <h2 class="text-2xl font-bold">Writing</h2>
-          <p class="text-sm mt-3" style="color:var(--muted-dark)">Short fiction, micro-poems, serialized chapters and experiments. Channels deliver full reads first.</p>
+          <p class="text-sm mt-3" style="color:var(--muted-dark)">Short fiction, micro-poems, serialized chapters and experiments. Channels deliver full reads first. Inspired by street grit and digital dreams — raw words for real feels.</p>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             <article class="glass p-4 rounded-lg">
               <h3 class="font-semibold">Wahala for No 7 — Chapter Ten (Excerpt)</h3>
-              <p class="text-xs mt-2" style="color:var(--muted-dark)">An excerpt exploring life in Lagos — hot days, colder truths.</p>
+              <p class="text-xs mt-2" style="color:var(--muted-dark)">An excerpt exploring life in Lagos — hot days, colder truths. Hustle, heartbreak, and hidden codes.</p>
             </article>
 
             <article class="glass p-4 rounded-lg">
               <h3 class="font-semibold">Micro-Poems</h3>
-              <p class="text-xs mt-2" style="color:var(--muted-dark)">Tiny poems released weekly — raw and dense. Join channels to get them early.</p>
+              <p class="text-xs mt-2" style="color:var(--muted-dark)">Tiny poems released weekly — raw and dense. Join channels to get them early. Street art in verse form.</p>
             </article>
           </div>
         </div>
@@ -382,14 +481,16 @@
       <!-- CONTACT -->
       <section id="contact" class="tab-content tab-enter tab-enter-active">
         <div class="glass p-6 rounded-2xl">
-          <div class="grid md:grid-cols-2 gap-6">
+          <div class="grid md:grid-cols-2 gap-6 contact-grid">
             <div>
               <h2 class="text-2xl font-bold">Contact</h2>
               <p class="text-sm mt-2" style="color:var(--muted-dark)">Want to collaborate? Reach out via WhatsApp, GitHub or Facebook — or send a quick message below.</p>
 
               <div class="mt-4 space-y-3 text-sm" style="color:var(--muted-dark)">
                 <div><span class="text-xs text-gray-500">Email</span><div class="font-medium">brokenvzn@example.com</div></div>
-                <div><span class="text-xs text-gray-500">WhatsApp</span><div class="font-medium">+234 803 989 6597</div></div>
+                <div><span class="text-xs text-gray-500">WhatsApp</span><div class="font-medium"><a href="https://wa.me/2348148804813" class="hover:underline">+234 814 880 4813</a></div></div>
+                <div><span class="text-xs text-gray-500">WhatsApp</span><div class="font-medium"><a href="https://wa.me/2347079115653" class="hover:underline">+234 707 911 5653</a></div></div>
+                <div><span class="text-xs text-gray-500">WhatsApp</span><div class="font-medium"><a href="https://wa.me/2349039896597" class="hover:underline">+234 903 989 6597</a></div></div>
                 <div><span class="text-xs text-gray-500">Facebook</span><div class="font-medium">Broken Vzn</div></div>
               </div>
             </div>
@@ -398,9 +499,9 @@
               <input class="w-full p-3 rounded-md bg-transparent border border-white/6" placeholder="Your name" required />
               <input class="w-full p-3 rounded-md bg-transparent border border-white/6" placeholder="Your email" required type="email" />
               <textarea class="w-full p-3 rounded-md bg-transparent border border-white/6" placeholder="Message" rows="4" required></textarea>
-              <div class="flex gap-3">
+              <div class="flex gap-3 flex-wrap">
                 <button type="submit" class="px-4 py-2 rounded-md" style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2)); color:white;">Send message</button>
-                <a href="https://wa.me/2348039896597" target="_blank" class="px-4 py-2 rounded-md border border-white/6">WhatsApp</a>
+                <a href="https://wa.me/2348148804813" target="_blank" class="px-4 py-2 rounded-md border border-white/6">WhatsApp</a>
               </div>
             </form>
           </div>
@@ -593,4 +694,4 @@
     // accessible small toggles on profile card (if you want later)
   </script>
 </body>
-    </html>
+            </html>
