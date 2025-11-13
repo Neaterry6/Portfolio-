@@ -1,115 +1,965 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #121212;
-    color: #ffffff;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    transition: background 0.3s, color 0.3s;
-}
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Broken Vzn — Portfolio</title>
 
-/* Light Mode */
-.light-mode {
-    background-color: #ffffff;
-    color: #000000;
-}
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-/* Header */
-header {
-    padding: 20px;
-    background-color: #1f1f1f;
-    transition: background 0.3s;
-}
+  <style>
+    :root{
+      --accent-c1: #a855f7; /* purple */
+      --accent-c2: #c084fc; /* light purple */
+      --glass-border: rgba(168, 85, 247, 0.12);
+    }
 
-.light-mode header {
-    background-color: #f3f3f3;
-}
+    html.dark { --text-light: #F3E8FF; --muted-light: #C4B5FD; --card-bg-dark: rgba(168,85,247,0.05); background-color: #0f0a1a; color-scheme: dark; }
+    html:not(.dark) { --text-dark: #1e0e3a; --muted-dark: #7e5bef; --card-bg-light: rgba(168,85,247,0.08); background-color: #f5f3ff; color-scheme: light; }
 
-/* Profile Styling */
-.profile-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-}
+    body { font-family: 'Poppins', sans-serif; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
 
-.profile-img {
-    width: 120px;
-    border-radius: 50%;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-}
+    /* animated purple gradient background */
+    .animated-gradient {
+      background: linear-gradient(-45deg, var(--accent-c1), var(--accent-c2), #8b5cf6, #a78bfa);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-.profile-text {
-    text-align: left;
-}
+    /* background wrapper and clouds */
+    .bg-wrap { position: fixed; inset: 0; z-index: -20; overflow: hidden; }
+    .bg-image { position:absolute; inset:0; background-position:center; background-size:cover; background-repeat:no-repeat; transition: opacity 1s ease, transform 24s linear; will-change:opacity,transform; filter: saturate(1.04) contrast(1.02) blur(1px); }
+    .bg-image.hidden { opacity:0; pointer-events:none; transform: scale(1.02); }
+    .bg-image.visible { opacity:1; }
+    .bg-overlay { position:absolute; inset:0; background: linear-gradient(180deg, rgba(15,10,26,0.4), rgba(15,10,26,0.7)); pointer-events:none; }
 
-/* Navigation */
-nav ul {
-    list-style: none;
-    padding: 0;
-}
+    .cloud-layer { position:absolute; inset:0; pointer-events:none; opacity:0.08; filter: blur(20px) saturate(1.2); transform-origin:center; animation: cloudFloat 20s ease-in-out infinite; }
+    @keyframes cloudFloat {
+      0%, 100% { transform: translateX(0px) translateY(0px); }
+      50% { transform: translateX(-20px) translateY(-10px); }
+    }
 
-nav ul li {
-    display: inline;
-    margin: 15px;
-}
+    /* particles canvas */
+    #particles-canvas { position: fixed; inset: 0; z-index: -10; pointer-events: none; }
 
-nav ul li a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 18px;
-}
+    /* glass cards */
+    .glass {
+      background: linear-gradient(180deg, rgba(168,85,247,0.06), rgba(168,85,247,0.03));
+      backdrop-filter: blur(20px) saturate(140%);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 15px 40px rgba(168,85,247,0.15);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .glass.light { background: var(--card-bg-light); border-color: rgba(168,85,247,0.15); box-shadow: 0 8px 25px rgba(168,85,247,0.08); }
 
-.light-mode nav ul li a {
-    color: #000000;
-}
+    /* small helpers */
+    .accent-line { 
+      height:4px; 
+      border-radius:999px; 
+      background: linear-gradient(90deg, var(--accent-c1), var(--accent-c2)); 
+      box-shadow: 0 8px 30px rgba(168,85,247,0.25);
+      animation: accentGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes accentGlow {
+      from { box-shadow: 0 8px 30px rgba(168,85,247,0.25); }
+      to { box-shadow: 0 8px 30px rgba(168,85,247,0.4); }
+    }
+    .tab-enter { opacity:0; transform: translateY(8px) scale(.995); }
+    .tab-enter-active { transition: all .36s cubic-bezier(.2,.9,.2,1); opacity:1; transform: translateY(0) scale(1); }
+    .nav-blur { backdrop-filter: blur(10px); }
 
-/* GitHub Stats */
-.github-stats img {
-    width: 100%;
-    max-width: 450px;
-    margin: 10px auto;
-    display: block;
-}
+    /* profile card hover */
+    .profile-card:hover { 
+      transform: translateY(-6px) scale(1.02); 
+      box-shadow: 0 20px 60px rgba(168,85,247,0.25); 
+    }
 
-/* Sections */
-section {
-    padding: 40px;
-}
+    /* carousel horizontal scroll */
+    .carousel { 
+      display: flex; 
+      overflow-x: auto; 
+      scroll-snap-type: x mandatory; 
+      gap: 1rem; 
+      padding: 1rem 0; 
+      scrollbar-width: none; 
+      -ms-overflow-style: none; 
+    }
+    .carousel::-webkit-scrollbar { display: none; }
+    .carousel-card { 
+      flex: 0 0 auto; 
+      width: 100%; 
+      max-width: 300px; 
+      scroll-snap-align: start; 
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .carousel-card:hover { transform: scale(1.05); }
 
-/* Writing Button */
-.button {
-    background-color: #0077ff;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-}
+    /* enhanced button animations */
+    button, a[href] {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    button:hover, a[href]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(168,85,247,0.2);
+    }
 
-footer {
-    padding: 20px;
-    background-color: #1f1f1f;
-    font-size: 14px;
-}
+    /* responsive tweaks */
+    @media (max-width: 768px) { 
+      .hide-sm { display:none; } 
+      .profile-card { margin-top: 1rem; }
+      .grid-cols-mobile { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .hero-grid { grid-template-columns: 1fr !important; }
+      .contact-grid { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
 
-.light-mode footer {
-    background-color: #f3f3f3;
-}
+<body class="transition-colors duration-300">
 
-/* Theme Toggle Button */
-#theme-toggle {
-    padding: 10px;
-    margin: 20px;
-    cursor: pointer;
-    font-size: 16px;
-    background: #0077ff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
+  <!-- Background -->
+  <div class="bg-wrap" id="bgWrap" aria-hidden="true">
+    <div id="bgA" class="bg-image visible"></div>
+    <div id="bgB" class="bg-image hidden"></div>
+    <div class="bg-overlay"></div>
 
-.light-mode #theme-toggle {
-    background: #222;
-    color: white;
-}
+    <!-- Cloud SVG -->
+    <svg class="cloud-layer" id="cloudLayer" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="cgrad" x1="0" x2="1">
+          <stop offset="0" stop-color="#c084fc" stop-opacity="0.12"/>
+          <stop offset="1" stop-color="#a855f7" stop-opacity="0.08"/>
+        </linearGradient>
+      </defs>
+      <g transform="translate(0,40)">
+        <ellipse cx="300" cy="120" rx="520" ry="120" fill="url(#cgrad)"/>
+        <ellipse cx="1100" cy="80" rx="520" ry="100" fill="url(#cgrad)"/>
+        <ellipse cx="800" cy="220" rx="740" ry="160" fill="url(#cgrad)"/>
+      </g>
+    </svg>
+
+    <!-- Particles Canvas -->
+    <canvas id="particles-canvas"></canvas>
+  </div>
+
+  <!-- Page container -->
+  <div class="min-h-screen max-w-6xl mx-auto px-4 sm:px-6 py-10 relative z-10">
+
+    <!-- Top nav -->
+    <div class="flex items-center justify-between mb-8 flex-col sm:flex-row gap-4 sm:gap-0">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl glass flex items-center justify-center animated-gradient">
+          <span style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:700;">BV</span>
+        </div>
+        <div>
+          <div id="siteTitle" class="text-lg font-semibold">Broken Vzn</div>
+          <div id="siteTag" class="text-xs" style="color:var(--muted-dark)">Full Stack Developer • Writer</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Light/Dark toggle -->
+        <button id="themeToggle" class="w-11 h-11 rounded-full glass flex items-center justify-center" aria-label="Toggle theme">
+          <svg id="themeIcon" class="w-5 h-5" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
+        </button>
+
+        <!-- Dropdown / menu -->
+        <div class="relative">
+          <button id="menuBtn" class="px-3 py-2 rounded-md glass inline-flex items-center gap-2">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <span class="hide-sm font-medium">Menu</span>
+          </button>
+
+          <div id="menuDropdown" class="dropdown glass p-3 rounded-xl absolute right-0 mt-2 hidden" style="min-width:220px; z-index:60;">
+            <a class="block px-3 py-2 rounded-md hover:bg-white/6" href="#about">About</a>
+            <a class="block px-3 py-2 rounded-md hover:bg-white/6" href="#work">Work</a>
+            <a class="block px-3 py-2 rounded-md hover:bg-white/6" href="#channels">Channels</a>
+            <a class="block px-3 py-2 rounded-md hover:bg-white/6" href="#writing">Writing</a>
+            <a class="block px-3 py-2 rounded-md hover:bg-white/6" href="#resume">Resume</a>
+            <a class="block px-3 py-2 rounded-md hover:bg-white/6" href="#repos">Repos</a>
+            <a class="block px-3 py-2 rounded-md hover:bg-white/6" href="#card">3D Card</a>
+            <a class="block px-3 py-2 rounded-md hover:bg-white/6" href="#contact">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero + Profile card -->
+    <header class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mb-10 hero-grid">
+      <div class="md:col-span-2 glass p-6 rounded-2xl">
+        <div class="flex items-start gap-5 flex-col sm:flex-row">
+          <img src="https://files.catbox.moe/la0rsq.jpg" alt="Broken Vzn avatar" class="w-28 h-28 rounded-full object-cover border-2 border-white/8 shadow-lg flex-shrink-0 transition-transform duration-500 hover:scale-110" />
+          <div class="flex-1">
+            <h1 id="heroName" class="text-3xl font-extrabold">Broken Vzn</h1>
+            <p id="heroSubtitle" class="mt-1 text-sm" style="color:var(--muted-dark)">Full Stack Developer & Writer — I blend craft, performance and narrative to build meaningful experiences.</p>
+
+            <div class="mt-4 flex flex-wrap gap-2 text-xs">
+              <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">React</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">Node.js</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">Tailwind</span>
+              <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">Design</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="mt-6 text-sm leading-relaxed" id="heroBio" style="color:var(--muted-dark)">
+          I build interfaces, backends and short stories. My work focuses on clarity, small delightful details and creative experimentation — performance-first code with a human voice. Passionate about turning ideas into interactive realities, one commit at a time.
+        </p>
+
+        <div class="mt-6 flex gap-3 flex-wrap">
+          <button class="px-4 py-2 rounded-md border border-white/6" data-tab="work">View Work</button>
+          <button class="px-4 py-2 rounded-md" style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2));" data-tab="channels">Channels & Updates</button>
+        </div>
+      </div>
+
+      <!-- Profile card (larger) -->
+      <aside id="profileCard" class="glass p-6 rounded-2xl profile-card transition-transform duration-300 md:col-span-1">
+        <div class="flex items-center gap-3 mb-4">
+          <img src="https://files.catbox.moe/la0rsq.jpg" alt="avatar" class="w-16 h-16 rounded-lg object-cover flex-shrink-0 transition-transform duration-500 hover:rotate-12" />
+          <div>
+            <div id="cardName" class="font-semibold text-lg">Broken Vzn</div>
+            <div class="text-sm" style="color:var(--muted-dark)">Full Stack Developer & Writer</div>
+          </div>
+        </div>
+
+        <p class="text-sm mb-4 leading-relaxed" style="color:var(--muted-dark)">Creator of apps, APIs, bots, and poetic narratives. Neat, fast, resilient code meets raw, urban-inspired stories. Exploring AI integrations, mobile-first designs, and serialized fiction that hits like street art.</p>
+
+        <div class="mb-4">
+          <h4 class="font-semibold text-sm mb-2" style="color:var(--text-light)">Featured Shots</h4>
+          <div class="flex gap-2">
+            <img src="https://h.uguu.se/lQfgLkCH.jpg" alt="Profile shot 1" class="w-1/2 rounded-lg object-cover border border-white/10 transition-transform duration-300 hover:scale-110" />
+            <img src="https://h.uguu.se/djyxGPiP.jpg" alt="Profile shot 2" class="w-1/2 rounded-lg object-cover border border-white/10 transition-transform duration-300 hover:scale-110" />
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h4 class="font-semibold text-sm mb-2" style="color:var(--text-light)">Recent Updates</h4>
+          <ul class="text-xs space-y-1" style="color:var(--muted-dark)">
+            <li>• New WhatsApp bot commands live</li>
+            <li>• Flux AI image gen integrated</li>
+            <li>• Mobile-responsive portfolio refresh</li>
+            <li>• Chapter 10 of "Wahala for No 7" dropped</li>
+          </ul>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <a href="https://github.com/Neaterry6" target="_blank" class="px-3 py-2 rounded-md text-sm" style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2)); color:white;">GitHub</a>
+          <div class="text-xs" style="color:var(--muted-dark)">Lagos, NG</div>
+        </div>
+      </aside>
+    </header>
+
+    <!-- Tab nav (desktop) -->
+    <nav class="mb-8 hidden md:flex items-center gap-4 overflow-x-auto">
+      <button class="tab-btn active px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="about">About</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="work">Work</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="channels">Channels</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="writing">Writing</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="resume">Resume</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="repos">Repos</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="card">3D Card</button>
+      <button class="tab-btn px-4 py-2 rounded-md text-sm glass whitespace-nowrap" data-tab="contact">Contact</button>
+    </nav>
+
+    <!-- Main tabs -->
+    <main class="space-y-8">
+      <!-- ABOUT -->
+      <section id="about" class="tab-content active tab-enter tab-enter-active glass p-6 rounded-2xl">
+        <div class="flex items-center justify-between flex-col sm:flex-row gap-4">
+          <h2 class="text-2xl font-bold">About</h2>
+          <div class="w-24 accent-line rounded-full"></div>
+        </div>
+
+        <p class="mt-4 text-sm leading-relaxed" id="aboutText" style="color:var(--muted-dark)">
+          I'm <strong>Broken Vzn</strong>, a Full Stack Developer and writer. I create web apps and APIs, design intuitive frontends, and write short fiction and poems that give my projects personality. From Lagos streets to code commits, I craft experiences that resonate — resilient, raw, and real.
+        </p>
+
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 grid-cols-mobile">
+          <div class="glass p-4 rounded-lg light hover:scale-105 transition-transform">
+            <div class="text-sm text-gray-500">Primary</div>
+            <div class="font-semibold mt-1" style="color:var(--text-dark)">Full Stack Dev</div>
+            <div class="text-xs mt-2 text-gray-600">React, Tailwind, Node.js, Express, MongoDB</div>
+          </div>
+          <div class="glass p-4 rounded-lg light hover:scale-105 transition-transform">
+            <div class="text-sm text-gray-500">Creative</div>
+            <div class="font-semibold mt-1" style="color:var(--text-dark)">Writer</div>
+            <div class="text-xs mt-2 text-gray-600">Short fiction, micro-poetry, serialized releases</div>
+          </div>
+          <div class="glass p-4 rounded-lg light hover:scale-105 transition-transform">
+            <div class="text-sm text-gray-500">Tools</div>
+            <div class="font-semibold mt-1" style="color:var(--text-dark)">Design & Deploy</div>
+            <div class="text-xs mt-2 text-gray-600">Figma, Vercel, GitHub</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WORK -->
+      <section id="work" class="tab-content tab-enter tab-enter-active">
+        <div class="glass p-6 rounded-2xl">
+          <div class="flex items-center justify-between flex-col sm:flex-row gap-4">
+            <h2 class="text-2xl font-bold">Selected Work</h2>
+            <div class="text-xs" style="color:var(--muted-dark)">Open to view</div>
+          </div>
+
+          <div class="carousel mt-4">
+            <a href="https://cbt-3unx.orender.com/" target="_blank" class="carousel-card glass p-6 rounded-xl hover:scale-[1.01] transition">
+              <div class="flex gap-4">
+                <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#a855f7] to-[#c084fc] flex items-center justify-center text-white font-bold">CB</div>
+                <div>
+                  <h3 class="font-semibold">CBT Platform</h3>
+                  <p class="text-xs mt-1" style="color:var(--muted-dark)">An exam platform with analytics and user flows for learning.</p>
+                </div>
+              </div>
+            </a>
+
+            <a href="https://brokenvznapi-1.orender.com/" target="_blank" class="carousel-card glass p-6 rounded-xl hover:scale-[1.01] transition">
+              <div class="flex gap-4">
+                <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#a855f7] to-[#c084fc] flex items-center justify-center text-white font-bold">API</div>
+                <div>
+                  <h3 class="font-semibold">BrokenVZN API</h3>
+                  <p class="text-xs mt-1" style="color:var(--muted-dark)">APIs for authentication, utilities and integrations.</p>
+                </div>
+              </div>
+            </a>
+
+            <a href="https://streame-id.vercel.app/" target="_blank" class="carousel-card glass p-6 rounded-xl hover:scale-[1.01] transition">
+              <div class="flex gap-4">
+                <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#a855f7] to-[#c084fc] flex items-center justify-center text-white font-bold">SM</div>
+                <div>
+                  <h3 class="font-semibold">StreamMe</h3>
+                  <p class="text-xs mt-1" style="color:var(--muted-dark)">Music platform for creators and listeners.</p>
+                </div>
+              </div>
+            </a>
+
+            <div class="carousel-card glass p-6 rounded-xl">
+              <div class="flex gap-4">
+                <div class="w-12 h-12 rounded-lg bg-gray-700 flex items-center justify-center text-white font-bold">+</div>
+                <div>
+                  <h3 class="font-semibold">More on GitHub</h3>
+                  <p class="text-xs mt-1" style="color:var(--muted-dark)">Explore repositories under <strong>Neaterry6</strong>.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHANNELS -->
+      <section id="channels" class="tab-content tab-enter tab-enter-active">
+        <div class="glass p-6 rounded-2xl">
+          <div class="flex items-center justify-between flex-col sm:flex-row gap-4">
+            <h2 class="text-2xl font-bold">Channels & Updates</h2>
+            <div class="text-xs" style="color:var(--muted-dark)">Join to stay updated</div>
+          </div>
+
+          <p class="text-sm mt-2" style="color:var(--muted-dark)">Channels for writing drops, releases and behind-the-scenes notes.</p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4">
+            <a href="https://whatsapp.com/channel/0029VbBGFatDOQIelCMp4R29" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-green-500 flex items-center justify-center text-white font-bold">WA</div>
+                  <div>
+                    <div class="font-semibold">Main Channel</div>
+                    <div class="text-xs" style="color:var(--muted-dark)">Primary updates & publications</div>
+                  </div>
+                </div>
+
+                <p class="text-xs mt-3" style="color:var(--muted-dark)">Stories, releases, and quick polls.</p>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between text-xs" style="color:var(--muted-dark)">
+                <div>Subscribers: live</div>
+                <div class="px-2 py-1 rounded-full bg-white/5">Join</div>
+              </div>
+            </a>
+
+            <a href="https://whatsapp.com/channel/0029Vb7DdtLB4hdZVS4hcK37" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-[#a855f7] to-[#c084fc] flex items-center justify-center text-white font-bold">WR</div>
+                  <div>
+                    <div class="font-semibold">Alt Channel</div>
+                    <div class="text-xs" style="color:var(--muted-dark)">Experimentals & drafts</div>
+                  </div>
+                </div>
+
+                <p class="text-xs mt-3" style="color:var(--muted-dark)">Early drafts & beta features.</p>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between text-xs" style="color:var(--muted-dark)">
+                <div>Subscribers: live</div>
+                <div class="px-2 py-1 rounded-full bg-white/5">Join</div>
+              </div>
+            </a>
+
+            <a href="https://whatsapp.com/channel/0029VbBHmTuJ3jv2aotR312I" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-pink-500 flex items-center justify-center text-white font-bold">WR</div>
+                  <div>
+                    <div class="font-semibold">Writing Updates</div>
+                    <div class="text-xs" style="color:var(--muted-dark)">Serialized publications</div>
+                  </div>
+                </div>
+
+                <p class="text-xs mt-3" style="color:var(--muted-dark)">Chapters, micro-poems, and reading events.</p>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between text-xs" style="color:var(--muted-dark)">
+                <div>Subscribers: live</div>
+                <div class="px-2 py-1 rounded-full bg-white/5">Join</div>
+              </div>
+            </a>
+
+            <a href="https://www.facebook.com/profile.php?id=61579974303119" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold">f</div>
+                  <div>
+                    <div class="font-semibold">Facebook</div>
+                    <div class="text-xs" style="color:var(--muted-dark)">Public posts & images</div>
+                  </div>
+                </div>
+
+                <p class="text-xs mt-3" style="color:var(--muted-dark)">Long posts, images and public discussion.</p>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between text-xs" style="color:var(--muted-dark)">
+                <div>Profile</div>
+                <div class="px-2 py-1 rounded-full bg-white/5">Open</div>
+              </div>
+            </a>
+
+            <a href="https://discord.com/users/broken015002" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-indigo-500 flex items-center justify-center text-white font-bold">D</div>
+                  <div>
+                    <div class="font-semibold">Discord</div>
+                    <div class="text-xs" style="color:var(--muted-dark)">broken015002</div>
+                  </div>
+                </div>
+
+                <p class="text-xs mt-3" style="color:var(--muted-dark)">Chat about code, stories, or collabs.</p>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between text-xs" style="color:var(--muted-dark)">
+                <div>DM me</div>
+                <div class="px-2 py-1 rounded-full bg-white/5">Connect</div>
+              </div>
+            </a>
+
+            <a href="https://creator.nightcafe.studio/u/Heisbroken" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-purple-500 flex items-center justify-center text-white font-bold">NC</div>
+                  <div>
+                    <div class="font-semibold">NightCafe</div>
+                    <div class="text-xs" style="color:var(--muted-dark)">AI Art Creations</div>
+                  </div>
+                </div>
+
+                <p class="text-xs mt-3" style="color:var(--muted-dark)">Generated visuals and experiments.</p>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between text-xs" style="color:var(--muted-dark)">
+                <div>Gallery</div>
+                <div class="px-2 py-1 rounded-full bg-white/5">View</div>
+              </div>
+            </a>
+
+            <a href="https://x.com/LoliPop55697" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center text-white font-bold">X</div>
+                  <div>
+                    <div class="font-semibold">X (Twitter)</div>
+                    <div class="text-xs" style="color:var(--muted-dark)">@LoliPop55697</div>
+                  </div>
+                </div>
+
+                <p class="text-xs mt-3" style="color:var(--muted-dark)">Quick thoughts, updates, and vibes.</p>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between text-xs" style="color:var(--muted-dark)">
+                <div>Follow</div>
+                <div class="px-2 py-1 rounded-full bg-white/5">Open</div>
+              </div>
+            </a>
+
+            <a href="https://www.tiktok.com/@heisbroken05" target="_blank" class="p-5 glass rounded-xl hover:scale-[1.01] transition flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center text-white font-bold">TT</div>
+                  <div>
+                    <div class="font-semibold">TikTok</div>
+                    <div class="text-xs" style="color:var(--muted-dark)">@Heisbroken05</div>
+                  </div>
+                </div>
+
+                <p class="text-xs mt-3" style="color:var(--muted-dark)">Videos, shorts, and creative clips.</p>
+              </div>
+
+              <div class="mt-4 flex items-center justify-between text-xs" style="color:var(--muted-dark)">
+                <div>Follow</div>
+                <div class="px-2 py-1 rounded-full bg-white/5">Open</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- WRITING -->
+      <section id="writing" class="tab-content tab-enter tab-enter-active">
+        <div class="glass p-6 rounded-2xl">
+          <h2 class="text-2xl font-bold">Writing</h2>
+          <p class="text-sm mt-3" style="color:var(--muted-dark)">Short fiction, micro-poems, serialized chapters and experiments. Channels deliver full reads first. Inspired by street grit and digital dreams — raw words for real feels.</p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            <article class="glass p-4 rounded-lg hover:scale-105 transition-transform">
+              <h3 class="font-semibold">Wahala for No 7 — Chapter Ten (Excerpt)</h3>
+              <p class="text-xs mt-2" style="color:var(--muted-dark)">An excerpt exploring life in Lagos — hot days, colder truths. Hustle, heartbreak, and hidden codes.</p>
+            </article>
+
+            <article class="glass p-4 rounded-lg hover:scale-105 transition-transform">
+              <h3 class="font-semibold">Micro-Poems</h3>
+              <p class="text-xs mt-2" style="color:var(--muted-dark)">Tiny poems released weekly — raw and dense. Join channels to get them early. Street art in verse form.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESUME -->
+      <section id="resume" class="tab-content tab-enter tab-enter-active">
+        <div class="glass p-6 rounded-2xl">
+          <div class="flex items-center justify-between flex-col sm:flex-row gap-4 mb-4">
+            <h2 class="text-2xl font-bold">Resume</h2>
+            <div class="w-24 accent-line rounded-full"></div>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Experience -->
+            <div>
+              <h3 class="font-bold text-lg mb-3">Experience</h3>
+              <div class="space-y-4">
+                <div class="glass p-4 rounded-lg hover:scale-105 transition-transform">
+                  <h4 class="font-semibold">Full Stack Developer (Freelance)</h4>
+                  <p class="text-sm mb-2" style="color:var(--muted-dark)">2022 – Present | Lagos, NG</p>
+                  <ul class="text-xs space-y-1" style="color:var(--muted-dark)">
+                    <li>• CBT Platform: React/Node/MongoDB build, analytics dashboard, 500+ users, 95% uptime</li>
+                    <li>• WhatsApp Bots: AI (Flux) integration, 50+ commands, 10k+ interactions, 80% response rate</li>
+                    <li>• StreamMe App: Music streaming MVP, creator tools, 200+ streams/week, Vercel deploy</li>
+                    <li>• BrokenVZN API: JWT auth, 20+ endpoints, 5k+ calls/month, scalable Node/Express</li>
+                  </ul>
+                </div>
+                <div class="glass p-4 rounded-lg hover:scale-105 transition-transform">
+                  <h4 class="font-semibold">Creative Writer & Content Creator</h4>
+                  <p class="text-sm mb-2" style="color:var(--muted-dark)">2021 – Present | Independent</p>
+                  <ul class="text-xs space-y-1" style="color:var(--muted-dark)">
+                    <li>• "Wahala for No 7": 10+ chapters serialized, 2k+ readers, 15% retention rate</li>
+                    <li>• Micro-Poems/Shorts: Weekly drops, urban themes, 1.5k+ monthly engagements</li>
+                    <li>• Narrative UX: Story integration in bots/apps, 30% user session boost</li>
+                    <li>• AI Art/Writing Collabs: NightCafe hybrids, 500+ shares, 20% virality</li>
+                  </ul>
+                </div>
+                <div class="glass p-4 rounded-lg hover:scale-105 transition-transform">
+                  <h4 class="font-semibold">Junior Web Developer (Intern)</h4>
+                  <p class="text-sm mb-2" style="color:var(--muted-dark)">2021 | Local Startup, Lagos</p>
+                  <ul class="text-xs space-y-1" style="color:var(--muted-dark)">
+                    <li>• E-commerce Site: HTML/CSS/JS responsive build, 50% load time reduction</li>
+                    <li>• Backend Debug: Node/Express fixes, 100+ queries optimized</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills -->
+            <div>
+              <h3 class="font-bold text-lg mb-3">Skills</h3>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">React <span class="text-xs font-bold text-green-400">(Expert)</span></span>
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">Node.js <span class="text-xs font-bold text-green-400">(Expert)</span></span>
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">Express <span class="text-xs font-bold text-blue-400">(Advanced)</span></span>
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">MongoDB <span class="text-xs font-bold text-blue-400">(Advanced)</span></span>
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">Tailwind CSS <span class="text-xs font-bold text-green-400">(Expert)</span></span>
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">JavaScript (ES6+) <span class="text-xs font-bold text-green-400">(Expert)</span></span>
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">HTML/CSS <span class="text-xs font-bold text-green-400">(Expert)</span></span>
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">AI Integration (Flux/OpenAI) <span class="text-xs font-bold text-yellow-400">(Intermediate)</span></span>
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">Figma <span class="text-xs font-bold text-yellow-400">(Intermediate)</span></span>
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">Git/GitHub <span class="text-xs font-bold text-green-400">(Expert)</span></span>
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">Vercel/Netlify <span class="text-xs font-bold text-blue-400">(Advanced)</span></span>
+                <span class="px-3 py-1 rounded-full bg-white/5 text-xs hover:scale-110 transition-transform">Creative Writing <span class="text-xs font-bold text-green-400">(Expert)</span></span>
+              </div>
+            </div>
+
+            <!-- Education -->
+            <div class="glass p-4 rounded-lg">
+              <h3 class="font-bold text-lg mb-3">Education</h3>
+              <ul class="text-sm space-y-1" style="color:var(--muted-dark)">
+                <li>• Self-Taught Full Stack: 20+ projects, creative coding/AI focus (2020–Present)</li>
+                <li>• FreeCodeCamp: Responsive Web Design, JS Algorithms (2021)</li>
+                <li>• Coursera: Google IT Support Professional (Basics, 2022)</li>
+                <li>• Ongoing: Udemy Node.js/Express, Generative AI</li>
+              </ul>
+            </div>
+
+            <!-- Certifications -->
+            <div class="glass p-4 rounded-lg">
+              <h3 class="font-bold text-lg mb-3">Certifications</h3>
+              <ul class="text-sm space-y-1" style="color:var(--muted-dark)">
+                <li>• FreeCodeCamp Responsive Web Design — <a href="#" class="hover:underline" target="_blank">View Cert (Add URL)</a></li>
+                <li>• Google IT Support Professional — <a href="#" class="hover:underline" target="_blank">View Cert (Add URL)</a></li>
+                <li>• [Additional Cert] — <a href="#" class="hover:underline" target="_blank">View Cert (Add URL)</a></li>
+              </ul>
+            </div>
+
+            <!-- Download -->
+            <div class="text-center">
+              <a href="#" class="inline-block px-6 py-3 rounded-md text-sm font-medium" style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2)); color:white;" download>Download PDF Resume</a>
+              <p class="text-xs mt-2" style="color:var(--muted-dark)">Full details in PDF — replace with your actual link</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- REPOS -->
+      <section id="repos" class="tab-content tab-enter tab-enter-active">
+        <div class="glass p-6 rounded-2xl">
+          <div class="flex items-center justify-between flex-col sm:flex-row gap-4 mb-4">
+            <h2 class="text-2xl font-bold">GitHub Repositories</h2>
+            <div class="text-xs" style="color:var(--muted-dark)">Latest updates from <a href="https://github.com/Neaterry6" target="_blank" class="hover:underline">@Neaterry6</a></div>
+          </div>
+
+          <p class="text-sm mb-4" style="color:var(--muted-dark)">Dynamic fetch of the latest 6 repositories, sorted by recent activity. Each includes stars, language, and a quick view link.</p>
+
+          <div id="reposLoading" class="flex justify-center py-8">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+          </div>
+          <div id="reposGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 hidden"></div>
+        </div>
+      </section>
+
+      <!-- 3D CARD -->
+      <section id="card" class="tab-content tab-enter tab-enter-active">
+        <div class="glass p-4 rounded-2xl">
+          <h2 class="text-2xl font-bold mb-3">Interactive 3D Portfolio Card</h2>
+          <p class="text-sm mb-4" style="color:var(--muted-dark)">Embedded interactive demo from the repo.</p>
+          <div class="w-full rounded-xl overflow-hidden border border-white/6">
+            <iframe src="https://neaterry6.github.io/3d-portfolio-card-master/" class="w-full h-80" loading="lazy" title="3D Portfolio Card"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="tab-content tab-enter tab-enter-active">
+        <div class="glass p-6 rounded-2xl">
+          <div class="grid md:grid-cols-2 gap-6 contact-grid">
+            <div>
+              <h2 class="text-2xl font-bold">Contact</h2>
+              <p class="text-sm mt-2" style="color:var(--muted-dark)">Want to collaborate? Reach out via WhatsApp, GitHub or Facebook — or send a quick message below.</p>
+
+              <div class="mt-4 space-y-3 text-sm" style="color:var(--muted-dark)">
+                <div><span class="text-xs text-gray-500">Email</span><div class="font-medium">brokenvzn@example.com</div></div>
+                <div><span class="text-xs text-gray-500">WhatsApp</span><div class="font-medium"><a href="https://wa.me/2348148804813" class="hover:underline">+234 814 880 4813</a></div></div>
+                <div><span class="text-xs text-gray-500">WhatsApp</span><div class="font-medium"><a href="https://wa.me/2347079115653" class="hover:underline">+234 707 911 5653</a></div></div>
+                <div><span class="text-xs text-gray-500">WhatsApp</span><div class="font-medium"><a href="https://wa.me/2349039896597" class="hover:underline">+234 903 989 6597</a></div></div>
+                <div><span class="text-xs text-gray-500">Facebook</span><div class="font-medium">Broken Vzn</div></div>
+              </div>
+            </div>
+
+            <form id="contactForm" class="space-y-3" onsubmit="event.preventDefault(); alert('Thanks — message simulated. Replace with your endpoint to send.');">
+              <input class="w-full p-3 rounded-md bg-transparent border border-white/6 transition-all duration-300 focus:border-purple-500" placeholder="Your name" required />
+              <input class="w-full p-3 rounded-md bg-transparent border border-white/6 transition-all duration-300 focus:border-purple-500" placeholder="Your email" required type="email" />
+              <textarea class="w-full p-3 rounded-md bg-transparent border border-white/6 transition-all duration-300 focus:border-purple-500" placeholder="Message" rows="4" required></textarea>
+              <div class="flex gap-3 flex-wrap">
+                <button type="submit" class="px-4 py-2 rounded-md" style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2)); color:white;">Send message</button>
+                <a href="https://wa.me/2348148804813" target="_blank" class="px-4 py-2 rounded-md border border-white/6">WhatsApp</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-10 text-center text-sm" style="color:var(--muted-dark)">
+      © <span id="year"></span> Broken Vzn — Crafted with code & words.
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // menu dropdown
+    const menuBtn = document.getElementById('menuBtn');
+    const menuDropdown = document.getElementById('menuDropdown');
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      menuDropdown.classList.toggle('hidden');
+    });
+    window.addEventListener('click', (e) => {
+      if(!menuDropdown.contains(e.target) && !menuBtn.contains(e.target)) menuDropdown.classList.add('hidden');
+    });
+
+    // Tabs behavior
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    let reposLoaded = false;
+    function setActive(tabId) {
+      tabContents.forEach(c => {
+        if(c.id === tabId) {
+          c.classList.add('active','tab-enter-active');
+          c.classList.remove('tab-enter');
+          // Load repos if needed
+          if(tabId === 'repos' && !reposLoaded) {
+            const loading = document.getElementById('reposLoading');
+            const grid = document.getElementById('reposGrid');
+            fetch('https://api.github.com/users/Neaterry6/repos?sort=updated&per_page=6')
+              .then(res => res.json())
+              .then(data => {
+                grid.innerHTML = data.map(repo => `
+                  <div class="glass p-4 rounded-lg hover:scale-105 transition-transform">
+                    <h3 class="font-semibold mb-1"><a href="${repo.html_url}" target="_blank" class="hover:underline">${repo.name}</a></h3>
+                    <p class="text-xs mb-2" style="color:var(--muted-dark)">${repo.description || 'No description available.'}</p>
+                    <div class="flex items-center gap-3 mb-2 text-xs" style="color:var(--muted-dark)">
+                      <span>⭐ ${repo.stargazers_count || 0}</span>
+                      ${repo.language ? `<span class="px-2 py-1 rounded-full text-purple-500 bg-purple-500/10">${repo.language}</span>` : ''}
+                    </div>
+                    <a href="${repo.html_url}" target="_blank" class="text-sm" style="color:var(--accent-c1);">View →</a>
+                  </div>
+                `).join('');
+                loading.style.display = 'none';
+                grid.classList.remove('hidden');
+                reposLoaded = true;
+              })
+              .catch(err => {
+                console.error('Failed to load repos:', err);
+                loading.innerHTML = '<p class="text-sm" style="color:var(--muted-dark);">Failed to load — check console.</p>';
+                loading.style.display = 'block';
+                grid.classList.add('hidden');
+              });
+          }
+        } else {
+          c.classList.remove('active','tab-enter-active');
+          c.classList.add('tab-enter');
+        }
+      });
+      tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+      // scroll to the active section
+      const el = document.getElementById(tabId);
+      if(el) window.scrollTo({ top: el.offsetTop - 24, behavior: 'smooth' });
+    }
+    tabBtns.forEach(btn => btn.addEventListener('click', () => setActive(btn.dataset.tab)));
+    // wire other data-tab buttons (e.g., view work CTA)
+    document.querySelectorAll('[data-tab]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        const t = el.getAttribute('data-tab');
+        if(t) setActive(t);
+      });
+    });
+    // init
+    setActive('about');
+
+    // theme toggle + system preference + persistence
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const THEME_KEY = 'bv_theme_pref';
+    function applyTheme(t) {
+      if(t === 'dark') {
+        root.classList.add('dark');
+        // dark: light text
+        document.body.style.color = 'var(--text-light)';
+        // small muted colors
+        document.querySelectorAll('[style*="--muted-dark"]').forEach(()=>{});
+      } else {
+        root.classList.remove('dark');
+        // light: black text
+        document.body.style.color = 'var(--text-dark)';
+      }
+      localStorage.setItem(THEME_KEY, t);
+      updateThemeIcon(t);
+    }
+    function updateThemeIcon(t) {
+      const svg = document.getElementById('themeIcon');
+      svg.innerHTML = '';
+      if(t === 'dark') {
+        // sun icon for switching to light
+        svg.innerHTML = '<path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4M12 7a5 5 0 100 10 5 5 0 000-10z"/>';
+      } else {
+        // moon icon for switching to dark
+        svg.innerHTML = '<path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>';
+      }
+    }
+    // detect saved or system
+    const saved = localStorage.getItem(THEME_KEY);
+    if(saved) {
+      applyTheme(saved);
+    } else {
+      const prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      applyTheme(prefers);
+    }
+    themeToggle.addEventListener('click', () => {
+      const current = root.classList.contains('dark') ? 'dark' : 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+
+    // Background rotation (waifu.pics) - two layers for crossfade
+    const bgA = document.getElementById('bgA');
+    const bgB = document.getElementById('bgB');
+    const CLOUD = document.getElementById('cloudLayer');
+    const FALLBACKS = [
+      'https://images.unsplash.com/photo-1503264116251-35a269479413?q=80&w=1600&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=1600&auto=format&fit=crop'
+    ];
+    function preloadImage(url){
+      return new Promise((resolve,reject)=>{
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = ()=>resolve(url);
+        img.onerror = ()=>reject(new Error('fail'));
+        img.src = url;
+      });
+    }
+    async function fetchWaifuImage(){
+      const API = 'https://api.waifu.pics/sfw/waifu';
+      let attempts = 0;
+      while(attempts < 3){
+        try{
+          const res = await fetch(API, {cache:'no-store'});
+          if(!res.ok) throw new Error('bad');
+          const j = await res.json();
+          if(j && j.url){ await preloadImage(j.url); return j.url; }
+        } catch(e){ attempts++; }
+      }
+      for(const f of FALLBACKS) {
+        try { await preloadImage(f); return f; } catch(e){ continue; }
+      }
+      return FALLBACKS[0];
+    }
+    let showingA = true;
+    async function setNextBackground(){
+      const url = await fetchWaifuImage();
+      const showEl = showingA ? bgB : bgA;
+      const hideEl = showingA ? bgA : bgB;
+      showEl.style.backgroundImage = `linear-gradient(rgba(15,10,26,0.4), rgba(15,10,26,0.6)), url('${url}')`;
+      showEl.classList.remove('hidden'); showEl.classList.add('visible');
+      hideEl.classList.remove('visible'); hideEl.classList.add('hidden');
+      // zoom effect
+      showEl.style.transform = 'scale(1)';
+      void showEl.offsetWidth;
+      showEl.style.transform = 'scale(1.01)';
+      showingA = !showingA;
+    }
+    (async function initBg(){
+      try {
+        const initial = await fetchWaifuImage();
+        bgA.style.backgroundImage = `linear-gradient(rgba(15,10,26,0.4), rgba(15,10,26,0.6)), url('${initial}')`;
+        bgA.classList.add('visible'); bgA.classList.remove('hidden');
+      } catch(e) {
+        bgA.style.backgroundImage = `url('${FALLBACKS[0]}')`;
+      }
+      setInterval(setNextBackground, 300000); // 5 minutes
+      setTimeout(setNextBackground, 6000);
+    })();
+
+    // Cloud parallax on mouse / touch
+    window.addEventListener('mousemove', (e) => {
+      const cx = (e.clientX / window.innerWidth - 0.5) * 30;
+      const cy = (e.clientY / window.innerHeight - 0.5) * 20;
+      CLOUD.style.transform = `translate(${cx}px, ${cy}px) scale(1.02)`;
+    });
+    window.addEventListener('touchmove', (e) => {
+      if(e.touches && e.touches[0]) {
+        const t = e.touches[0];
+        const cx = (t.clientX / window.innerWidth - 0.5) * 30;
+        const cy = (t.clientY / window.innerHeight - 0.5) * 20;
+        CLOUD.style.transform = `translate(${cx}px, ${cy}px) scale(1.02)`;
+      }
+    });
+
+    // Particles Effect
+    function initParticles() {
+      const canvas = document.getElementById('particles-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particles = [];
+      const particleCount = 100;
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 3 + 1;
+          this.speedX = Math.random() * 0.5 - 0.25;
+          this.speedY = Math.random() * 0.5 - 0.25;
+          this.color = `hsl(${Math.random() * 60 + 270}, 70%, ${Math.random() * 40 + 50}%)`; // Purple tones
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+          if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+        }
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+    }
+    initParticles();
+
+    // small keyboard nav for tabs: 1..8
+    window.addEventListener('keydown', (e) => {
+      if(document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
+      const map = {Digit1:'about',Digit2:'work',Digit3:'channels',Digit4:'writing',Digit5:'resume',Digit6:'repos',Digit7:'card',Digit8:'contact'};
+      if(map[e.code]) setActive(map[e.code]);
+    });
+
+    // Hash nav support
+    window.addEventListener('hashchange', () => {
+      const id = location.hash.replace('#','');
+      if(id) setActive(id);
+    });
+
+    // accessible small toggles on profile card (if you want later)
+  </script>
+</body>
+</html>
+```
