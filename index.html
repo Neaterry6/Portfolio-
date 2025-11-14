@@ -10,6 +10,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- GSAP CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- GSAP ScrollTrigger Plugin CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
@@ -748,42 +750,46 @@
     }
     initParticles();
 
-    // GSAP Entrance Animations
-    gsap.from(".entrance", {
-      duration: 1.2,
-      y: 50,
-      opacity: 0,
-      stagger: 0.15,
-      ease: "back.out(1.7)",
-      delay: 0.3
-    });
+    // GSAP Entrance Animations (with safety check for GSAP and ScrollTrigger)
+    if (typeof gsap !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
 
-    // Staggered animation for project cards specifically
-    gsap.from(".project-card", {
-      duration: 0.8,
-      scale: 0.9,
-      rotationY: 10,
-      opacity: 0,
-      stagger: {
-        amount: 0.5,
-        from: "start"
-      },
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: "#projects",
-        start: "top 80%"
-      }
-    });
+      gsap.from(".entrance", {
+        duration: 1.2,
+        y: 50,
+        opacity: 0,
+        stagger: 0.15,
+        ease: "back.out(1.7)",
+        delay: 0.3
+      });
 
-    // Additional fluid animation for updates list
-    gsap.from(".updates-list li", {
-      duration: 0.6,
-      y: 20,
-      opacity: 0,
-      stagger: 0.1,
-      ease: "power2.out",
-      delay: 1.5
-    });
+      // Staggered animation for project cards specifically
+      gsap.from(".project-card", {
+        duration: 0.8,
+        scale: 0.9,
+        rotationY: 10,
+        opacity: 0,
+        stagger: {
+          amount: 0.5,
+          from: "start"
+        },
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: "#projects",
+          start: "top 80%"
+        }
+      });
+
+      // Additional fluid animation for updates list
+      gsap.from(".updates-list li", {
+        duration: 0.6,
+        y: 20,
+        opacity: 0,
+        stagger: 0.1,
+        ease: "power2.out",
+        delay: 1.5
+      });
+    }
   </script>
 </body>
 </html>
