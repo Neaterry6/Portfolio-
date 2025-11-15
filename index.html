@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -6,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Broken Vzn — Portfolio</title>
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
   <!-- GSAP CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <!-- GSAP ScrollTrigger Plugin CDN -->
@@ -20,52 +17,105 @@
       --accent-c2: #60a5fa; /* light blue */
       --glass-border: rgba(37, 99, 235, 0.15);
       --glass-bg: rgba(255, 255, 255, 0.08);
+      --bg-dark: #001f3f; /* Dark blue to match image */
+      --text-light: #ffffff; /* White text to match image */
+      --muted-light: #bfdbfe; /* Light muted blue */
+      --card-bg-dark: rgba(37,99,235,0.08);
     }
 
-    html.dark { --text-light: #F8FAFC; --muted-light: #BFDBFE; --card-bg-dark: rgba(37,99,235,0.08); background-color: #1e293b; color-scheme: dark; }
-    html:not(.dark) { --text-dark: #0f172a; --muted-dark: #1d4ed8; --card-bg-light: rgba(37,99,235,0.10); background-color: #eff6ff; color-scheme: light; }
-
-    body { font-family: 'Poppins', sans-serif; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
-
-    /* animated blue gradient background */
-    .animated-gradient {
-      background: linear-gradient(-45deg, var(--accent-c1), var(--accent-c2), #3b82f6, #93c5fd);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
+    html.dark { 
+      --text-light: #F8FAFC; 
+      --muted-light: #BFDBFE; 
+      --card-bg-dark: rgba(37,99,235,0.08); 
+      background-color: var(--bg-dark); 
+      color-scheme: dark; 
     }
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    html:not(.dark) { 
+      --text-dark: #0f172a; 
+      --muted-dark: #1d4ed8; 
+      --card-bg-light: rgba(37,99,235,0.10); 
+      background-color: #eff6ff; 
+      color-scheme: light; 
     }
 
-    /* background wrapper and clouds */
-    .bg-wrap { position: fixed; inset: 0; z-index: -20; overflow: hidden; }
-    .bg-image { position:absolute; inset:0; background-position:center; background-size:cover; background-repeat:no-repeat; transition: opacity 1s ease, transform 24s linear; will-change:opacity,transform; filter: saturate(1.04) contrast(1.02) blur(1px); }
-    .bg-image.hidden { opacity:0; pointer-events:none; transform: scale(1.02); }
-    .bg-image.visible { opacity:1; }
-    .bg-overlay { position:absolute; inset:0; background: linear-gradient(180deg, rgba(30,41,59,0.4), rgba(30,41,59,0.7)); pointer-events:none; }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      -webkit-font-smoothing:antialiased; 
+      -moz-osx-font-smoothing:grayscale; 
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
 
-    .cloud-layer { position:absolute; inset:0; pointer-events:none; opacity:0.08; filter: blur(20px) saturate(1.2); transform-origin:center; animation: cloudFloat 20s ease-in-out infinite; }
+    /* Remove animated gradient, use solid dark blue to match image */
+    .bg-wrap { 
+      position: fixed; 
+      inset: 0; 
+      z-index: -20; 
+      overflow: hidden; 
+      background-color: var(--bg-dark);
+    }
+    .bg-image { 
+      position:absolute; 
+      inset:0; 
+      background-position:center; 
+      background-size:cover; 
+      background-repeat:no-repeat; 
+      transition: opacity 1s ease, transform 24s linear; 
+      will-change:opacity,transform; 
+      filter: saturate(1.04) contrast(1.02) blur(1px); 
+    }
+    .bg-image.hidden { 
+      opacity:0; 
+      pointer-events:none; 
+      transform: scale(1.02); 
+    }
+    .bg-image.visible { 
+      opacity:1; 
+    }
+    .bg-overlay { 
+      position:absolute; 
+      inset:0; 
+      background: linear-gradient(180deg, rgba(0,31,63,0.4), rgba(0,31,63,0.7)); 
+      pointer-events:none; 
+    }
+
+    .cloud-layer { 
+      position:absolute; 
+      inset:0; 
+      pointer-events:none; 
+      opacity:0.08; 
+      filter: blur(20px) saturate(1.2); 
+      transform-origin:center; 
+      animation: cloudFloat 20s ease-in-out infinite; 
+    }
     @keyframes cloudFloat {
       0%, 100% { transform: translateX(0px) translateY(0px); }
       50% { transform: translateX(-20px) translateY(-10px); }
     }
 
     /* particles canvas */
-    #particles-canvas { position: fixed; inset: 0; z-index: -10; pointer-events: none; }
+    #particles-canvas { 
+      position: fixed; 
+      inset: 0; 
+      z-index: -10; 
+      pointer-events: none; 
+    }
 
-    /* enhanced glassmorphism cards */
+    /* enhanced glassmorphism cards - adjusted for dark blue theme */
     .glass {
       background: var(--glass-bg);
       backdrop-filter: blur(30px) saturate(180%);
       border: 1px solid var(--glass-border);
       box-shadow: 
-        0 8px 32px rgba(37,99,235,0.10),
+        0 8px 32px rgba(0,31,63,0.30),
         inset 0 1px 0 rgba(255,255,255,0.1);
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       position: relative;
       overflow: hidden;
+      border-radius: 16px;
     }
     .glass::before {
       content: '';
@@ -93,16 +143,25 @@
       height:4px; 
       border-radius:999px; 
       background: linear-gradient(90deg, var(--accent-c1), var(--accent-c2)); 
-      box-shadow: 0 8px 30px rgba(37,99,235,0.25);
+      box-shadow: 0 8px 30px rgba(0,31,63,0.25);
       animation: accentGlow 3s ease-in-out infinite alternate;
     }
     @keyframes accentGlow {
-      from { box-shadow: 0 8px 30px rgba(37,99,235,0.25); }
-      to { box-shadow: 0 8px 30px rgba(37,99,235,0.4); }
+      from { box-shadow: 0 8px 30px rgba(0,31,63,0.25); }
+      to { box-shadow: 0 8px 30px rgba(0,31,63,0.4); }
     }
-    .tab-enter { opacity:0; transform: translateY(8px) scale(.995); }
-    .tab-enter-active { transition: all .36s cubic-bezier(.2,.9,.2,1); opacity:1; transform: translateY(0) scale(1); }
-    .nav-blur { backdrop-filter: blur(10px); }
+    .tab-enter { 
+      opacity:0; 
+      transform: translateY(8px) scale(.995); 
+    }
+    .tab-enter-active { 
+      transition: all .36s cubic-bezier(.2,.9,.2,1); 
+      opacity:1; 
+      transform: translateY(0) scale(1); 
+    }
+    .nav-blur { 
+      backdrop-filter: blur(10px); 
+    }
 
     /* entrance initial state */
     .entrance {
@@ -131,13 +190,13 @@
     }
     .project-card:hover {
       transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 20px 50px rgba(37,99,235,0.2);
+      box-shadow: 0 20px 50px rgba(0,31,63,0.2);
     }
 
     /* profile card hover */
     .profile-card:hover { 
       transform: translateY(-8px) scale(1.03); 
-      box-shadow: 0 25px 70px rgba(37,99,235,0.3); 
+      box-shadow: 0 25px 70px rgba(0,31,63,0.3); 
     }
 
     /* graphics card style for profile - Glassmorphism enhanced */
@@ -160,10 +219,10 @@
       height: 4px;
       background: linear-gradient(90deg, #2563eb, #60a5fa);
       animation: accentGlow 3s ease-in-out infinite alternate;
-      box-shadow: 0 0 20px rgba(37,99,235,0.4);
+      box-shadow: 0 0 20px rgba(0,31,63,0.4);
     }
     .card-header {
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(0,31,63,0.6);
       backdrop-filter: blur(15px);
       padding: 1.75rem;
       border-bottom: 1px solid rgba(37, 99, 235, 0.25);
@@ -174,7 +233,7 @@
       transition: background 0.3s ease;
     }
     .graphics-card:hover .card-header {
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(0,31,63,0.85);
     }
     .card-header::after {
       content: '';
@@ -266,7 +325,7 @@
     }
     .photo-grid img:hover {
       transform: scale(1.05) translateY(-3px);
-      box-shadow: 0 10px 25px rgba(37,99,235,0.25);
+      box-shadow: 0 10px 25px rgba(0,31,63,0.25);
       border-color: rgba(37,99,235,0.4);
     }
     .updates-list {
@@ -304,7 +363,7 @@
       transform: translateX(3px);
     }
     .card-footer {
-      background: rgba(51, 65, 85, 0.6);
+      background: rgba(0,31,63,0.6);
       backdrop-filter: blur(15px);
       padding: 1.75rem;
       border-top: 1px solid rgba(37, 99, 235, 0.25);
@@ -314,7 +373,7 @@
       transition: background 0.3s ease;
     }
     .graphics-card:hover .card-footer {
-      background: rgba(51, 65, 85, 0.85);
+      background: rgba(0,31,63,0.85);
     }
     .card-footer a {
       padding: 0.75rem 1.5rem;
@@ -325,7 +384,7 @@
       color: white;
       text-decoration: none;
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: 0 6px 16px rgba(37,99,235,0.2);
+      box-shadow: 0 6px 16px rgba(0,31,63,0.2);
       position: relative;
       overflow: hidden;
     }
@@ -344,7 +403,7 @@
     }
     .card-footer a:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+      box-shadow: 0 8px 20px rgba(0,31,63,0.3);
     }
     .card-footer div {
       font-size: 0.875rem;
@@ -363,7 +422,9 @@
       scrollbar-width: none; 
       -ms-overflow-style: none; 
     }
-    .carousel::-webkit-scrollbar { display: none; }
+    .carousel::-webkit-scrollbar { 
+      display: none; 
+    }
     .carousel-card { 
       flex: 0 0 auto; 
       width: 100%; 
@@ -371,7 +432,9 @@
       scroll-snap-align: start; 
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .carousel-card:hover { transform: scale(1.05); }
+    .carousel-card:hover { 
+      transform: scale(1.05); 
+    }
 
     /* enhanced button animations */
     button, a[href] {
@@ -379,52 +442,145 @@
     }
     button:hover, a[href]:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(37,99,235,0.2);
+      box-shadow: 0 8px 25px rgba(0,31,63,0.2);
     }
 
-    /* responsive tweaks */
-    @media (max-width: 768px) { 
-      .hide-sm { display:none; } 
-      .profile-card { margin-top: 1rem; }
-      .grid-cols-mobile { grid-template-columns: 1fr; }
-      /* Adjust font sizes for mobile */
-      h1 { font-size: 2.5rem; }
-      h2 { font-size: 2rem; }
-      h3 { font-size: 1.5rem; }
-      p { font-size: 1rem; }
-      /* Make avatar smaller on mobile */
-      .hero-avatar { width: 6rem; height: 6rem; }
-      /* Increase padding for touch targets */
-      button, .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; min-height: 3rem; }
-      /* Stack hero content vertically */
-      .hero-content { flex-direction: column; align-items: flex-start; }
-      .hero-content > div { width: 100%; }
-      /* Adjust project grid to single column */
-      #projects .grid { grid-template-columns: 1fr; }
-      /* Full width cards on mobile */
-      .glass { margin: 0 -1rem; border-radius: 0; }
-      /* Profile card mobile adjustments */
-      .graphics-card { max-width: none; margin: 0 -1rem; border-radius: 0; }
-      .photo-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 480px) {
-      .hero-grid { grid-template-columns: 1fr !important; }
-      .contact-grid { grid-template-columns: 1fr !important; }
-      /* Even smaller fonts for very small screens */
-      h1 { font-size: 2rem; }
-      h2 { font-size: 1.75rem; }
-      /* Reduce padding */
-      .p-8 { padding: 1.5rem !important; }
-      .p-6 { padding: 1.25rem !important; }
-      .card-body { padding: 1.25rem !important; }
-      .card-header, .card-footer { padding: 1.25rem !important; }
-    }
+    /* Layout utilities - replacing Tailwind flex/grid */
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+    .gap-4 { gap: 1rem; }
+    .gap-6 { gap: 1.5rem; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-3 { gap: 0.75rem; }
+    .p-8 { padding: 2rem; }
+    .p-6 { padding: 1.5rem; }
+    .p-4 { padding: 1rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+    .m-0 { margin: 0; }
+    .mt-8 { margin-top: 2rem; }
+    .mt-6 { margin-top: 1.5rem; }
+    .mt-3 { margin-top: 0.75rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .mb-10 { margin-bottom: 2.5rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-6 { margin-bottom: 1.5rem; }
+    .ml-4 { margin-left: 1rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    .space-y-8 > * + * { margin-top: 2rem; }
+    .w-full { width: 100%; }
+    .w-12 { width: 3rem; }
+    .w-16 { width: 4rem; }
+    .w-24 { width: 6rem; }
+    .w-32 { width: 8rem; }
+    .w-11 { width: 2.75rem; }
+    .h-12 { height: 3rem; }
+    .h-16 { height: 4rem; }
+    .h-32 { height: 8rem; }
+    .h-11 { height: 2.75rem; }
+    .h-full { height: 100%; }
+    .min-h-screen { min-height: 100vh; }
+    .max-w-6xl { max-width: 72rem; }
+    .mx-auto { margin-left: auto; margin-right: auto; }
+    .rounded-full { border-radius: 9999px; }
+    .rounded-xl { border-radius: 0.75rem; }
+    .rounded-2xl { border-radius: 1rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .rounded-md { border-radius: 0.375rem; }
+    .text-lg { font-size: 1.125rem; }
+    .text-xl { font-size: 1.25rem; }
+    .text-2xl { font-size: 1.5rem; }
+    .text-3xl { font-size: 1.875rem; }
+    .text-4xl { font-size: 2.25rem; }
+    .text-base { font-size: 1rem; }
+    .text-sm { font-size: 0.875rem; }
+    .text-xs { font-size: 0.75rem; }
+    .font-bold { font-weight: 700; }
+    .font-semibold { font-weight: 600; }
+    .font-extrabold { font-weight: 800; }
+    .leading-tight { line-height: 1.2; }
+    .leading-relaxed { line-height: 1.625; }
+    .text-white { color: white; }
+    .text-blue-400 { color: #60a5fa; }
+    .border { border-width: 1px; }
+    .border-2 { border-width: 2px; }
+    .border-white\/6 { border-color: rgba(255,255,255,0.06); }
+    .border-blue-500 { border-color: #3b82f6; }
+    .bg-transparent { background-color: transparent; }
+    .bg-white\/5 { background-color: rgba(255,255,255,0.05); }
+    .bg-white\/10 { background-color: rgba(255,255,255,0.1); }
+    .bg-white\/20 { background-color: rgba(255,255,255,0.2); }
+    .bg-black { background-color: black; }
+    .bg-indigo-600 { background-color: #4f46e5; }
+    .bg-purple-600 { background-color: #7c3aed; }
+    .bg-blue-600 { background-color: #2563eb; }
+    .bg-green-500 { background-color: #22c55e; }
+    .bg-gradient-to-br { background: linear-gradient(to bottom right, var(--accent-c1), var(--accent-c2)); }
+    .object-cover { object-fit: cover; }
+    .flex-1 { flex: 1; }
+    .flex-shrink-0 { flex-shrink: 0; }
+    .flex-wrap { flex-wrap: wrap; }
+    .inline-flex { display: inline-flex; }
+    .block { display: block; }
+    .grid { display: grid; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .hidden { display: none; }
+    .absolute { position: absolute; }
+    .relative { position: relative; }
+    .z-10 { z-index: 10; }
+    .overflow-hidden { overflow: hidden; }
+    .transition-all { transition: all 0.3s ease; }
+    .transition-colors { transition: color 0.3s ease, background-color 0.3s ease; }
+    .duration-300 { transition-duration: 300ms; }
+    .duration-500 { transition-duration: 500ms; }
+    .hover\:bg-white\/6:hover { background-color: rgba(255,255,255,0.06); }
+    .hover\:underline:hover { text-decoration: underline; }
+    .focus\:border-blue-500:focus { border-color: #3b82f6; }
+    .list-none { list-style: none; }
+    .border-l-4 { border-left-width: 4px; }
+    .pl-4 { padding-left: 1rem; }
+    .text-center { text-align: center; }
+    .download { cursor: pointer; }
 
-    /* Big, neat text adjustments */
-    h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; }
-    h2 { font-size: 2.5rem; font-weight: 700; line-height: 1.2; }
-    h3 { font-size: 1.75rem; font-weight: 600; }
-    p { font-size: 1.125rem; line-height: 1.6; }
+    /* Big, neat text adjustments - adjusted for image */
+    h1 { 
+      font-size: 3.5rem; 
+      font-weight: 800; 
+      line-height: 1.1; 
+      color: var(--text-light);
+      margin: 0;
+    }
+    h2 { 
+      font-size: 2.5rem; 
+      font-weight: 700; 
+      line-height: 1.2; 
+      color: var(--text-light);
+      margin: 0;
+    }
+    h3 { 
+      font-size: 1.75rem; 
+      font-weight: 600; 
+      color: var(--text-light);
+      margin: 0 0 0.5rem 0;
+    }
+    p { 
+      font-size: 1.125rem; 
+      line-height: 1.6; 
+      color: var(--muted-light);
+      margin: 0 0 1rem 0;
+    }
 
     /* Social icons */
     .social-icon {
@@ -464,7 +620,7 @@
     }
     .repo-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 10px 30px rgba(37,99,235,0.15);
+      box-shadow: 0 10px 30px rgba(0,31,63,0.15);
     }
     .language-badge {
       background: linear-gradient(90deg, var(--accent-c1), var(--accent-c2));
@@ -473,6 +629,194 @@
       border-radius: 9999px;
       font-size: 0.75rem;
       font-weight: 600;
+    }
+
+    /* Container */
+    .container {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 0 1rem 2.5rem 1rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Nav */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    @media (min-width: 640px) {
+      .nav { flex-direction: row; gap: 0; }
+    }
+
+    /* Hero grid */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      margin-bottom: 2.5rem;
+    }
+    @media (min-width: 768px) {
+      .hero-grid { grid-template-columns: 2fr 1fr; }
+    }
+
+    /* Hero content */
+    .hero-content {
+      display: flex;
+      align-items: start;
+      gap: 1rem;
+    }
+    @media (max-width: 768px) {
+      .hero-content { flex-direction: column; align-items: flex-start; }
+      .hero-content > div { width: 100%; }
+    }
+
+    /* Tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+    }
+    .tag {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      background-color: rgba(255,255,255,0.05);
+      transition: background-color 0.3s ease;
+    }
+    .tag:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-size: 1.125rem;
+      text-decoration: none;
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: all 0.3s ease;
+      color: var(--text-light);
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent-c1), var(--accent-c2));
+      color: white;
+      border: none;
+    }
+
+    /* Section common */
+    .section {
+      padding: 2rem;
+      border-radius: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    @media (min-width: 640px) {
+      .section-header { flex-direction: row; }
+    }
+
+    /* Contact grid */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .contact-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Form inputs */
+    input, textarea {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      background-color: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text-light);
+      font-size: 1.125rem;
+      transition: border-color 0.3s ease;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 8rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      font-size: 1rem;
+      color: var(--muted-light);
+      margin-top: 2.5rem;
+    }
+
+    /* Responsive tweaks - enhanced for mobile */
+    @media (max-width: 768px) { 
+      .hide-sm { display:none; } 
+      .profile-card { margin-top: 1rem; }
+      .grid-cols-mobile { grid-template-columns: 1fr; }
+      /* Adjust font sizes for mobile */
+      h1 { font-size: 2.5rem; }
+      h2 { font-size: 2rem; }
+      h3 { font-size: 1.5rem; }
+      p { font-size: 1rem; }
+      /* Make avatar smaller on mobile */
+      .hero-avatar { width: 6rem; height: 6rem; }
+      /* Increase padding for touch targets */
+      .btn, button { padding-left: 1.5rem; padding-right: 1.5rem; min-height: 3rem; }
+      /* Adjust project grid to single column */
+      #projects .carousel { flex-direction: column; }
+      /* Full width cards on mobile */
+      .glass, .graphics-card { margin: 0 -1rem; border-radius: 0; max-width: none; }
+      .photo-grid { grid-template-columns: 1fr; }
+      .container { padding: 0 0.5rem 2rem 0.5rem; }
+      .section { padding: 1.5rem; margin: 0 -0.5rem 2rem -0.5rem; border-radius: 0; }
+    }
+    @media (max-width: 480px) {
+      .hero-grid, .contact-grid { grid-template-columns: 1fr !important; }
+      /* Even smaller fonts for very small screens */
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.75rem; }
+      /* Reduce padding */
+      .section { padding: 1.25rem !important; }
+      .card-body { padding: 1.25rem !important; }
+      .card-header, .card-footer { padding: 1.25rem !important; }
+      .carousel { padding: 0.5rem; gap: 0.5rem; }
+      .carousel-card { max-width: none; }
+    }
+
+    /* Dropdown */
+    .dropdown {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      margin-top: 0.5rem;
+      min-width: 220px;
+      z-index: 60;
+      border-radius: 0.75rem;
+      padding: 0.75rem;
+      background-color: rgba(255,255,255,0.08);
+    }
+
+    /* Muted text */
+    .muted {
+      color: var(--muted-light);
     }
   </style>
 </head>
@@ -505,17 +849,17 @@
   </div>
 
   <!-- Page container -->
-  <div class="min-h-screen max-w-6xl mx-auto px-4 sm:px-6 py-10 relative z-10">
+  <div class="container">
 
     <!-- Top nav -->
-    <div class="flex items-center justify-between mb-8 flex-col sm:flex-row gap-4 sm:gap-0 entrance">
+    <nav class="nav entrance">
       <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-xl glass flex items-center justify-center animated-gradient">
+        <div class="w-12 h-12 rounded-xl glass flex items-center justify-center" style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2));">
           <span style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2)); -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:700;">BV</span>
         </div>
         <div>
           <div id="siteTitle" class="text-lg font-semibold">Broken Vzn</div>
-          <div id="siteTag" class="text-xs" style="color:var(--muted-dark)">Full Stack Developer & Creative Builder</div>
+          <div id="siteTag" class="text-xs muted">Full Stack Developer & Creative Builder</div>
         </div>
       </div>
 
@@ -532,7 +876,7 @@
             <span class="hide-sm font-medium">Menu</span>
           </button>
 
-          <div id="menuDropdown" class="dropdown glass p-3 rounded-xl absolute right-0 mt-2 hidden" style="min-width:220px; z-index:60;">
+          <div id="menuDropdown" class="dropdown glass p-3 rounded-xl hidden">
             <a class="block px-3 py-2 rounded-md hover:bg-white/6" href="#home">Home</a>
             <a class="block px-3 py-2 rounded-md hover:bg-white/6" href="#projects">Projects</a>
             <a class="block px-3 py-2 rounded-md hover:bg-white/6" href="#about">About</a>
@@ -543,38 +887,38 @@
           </div>
         </div>
       </div>
-    </div>
+    </nav>
 
     <!-- Hero + Profile card -->
-    <header id="home" class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start mb-10 hero-grid entrance">
-      <div class="md:col-span-2 glass p-8 rounded-2xl">
-        <div class="flex items-start gap-4 hero-content">
+    <header id="home" class="hero-grid entrance">
+      <div class="glass p-8 rounded-2xl">
+        <div class="hero-content">
           <img src="https://files.catbox.moe/la0rsq.jpg" alt="Broken Vzn avatar" class="w-32 h-32 hero-avatar rounded-full object-cover border-2 border-white/8 shadow-lg flex-shrink-0 transition-transform duration-500 hover:scale-110" />
           <div class="flex-1">
-            <h1 id="heroName" class="text-4xl font-extrabold leading-tight">Broken Vzn</h1>
-            <p id="heroSubtitle" class="mt-3 text-lg" style="color:var(--muted-dark)">Full Stack Developer & Creative Builder — I build beautiful websites that perform well and are accessible.</p>
+            <h1 id="heroName">Broken Vzn</h1>
+            <p id="heroSubtitle" class="mt-3 text-lg muted">Full Stack Developer & Creative Builder — I build beautiful websites that perform well and are accessible.</p>
 
-            <div class="mt-6 flex flex-wrap gap-2 text-sm">
-              <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">React</span>
-              <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">Node.js</span>
-              <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">Tailwind</span>
-              <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">Design</span>
+            <div class="mt-6 tags">
+              <span class="tag">React</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">Tailwind</span>
+              <span class="tag">Design</span>
             </div>
           </div>
         </div>
 
-        <p class="mt-8 text-base leading-relaxed" id="heroBio" style="color:var(--muted-dark)">
+        <p class="mt-8 text-base leading-relaxed muted" id="heroBio">
           I craft full-stack applications with clean code, smooth performance, and thoughtful details. From responsive frontends to robust backends, every project blends functionality with flair.
         </p>
 
         <div class="mt-8 flex gap-4 flex-wrap">
-          <button class="px-6 py-3 rounded-lg border border-white/6 text-lg" data-tab="projects">View Projects</button>
-          <button class="px-6 py-3 rounded-lg text-lg" style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2));" data-tab="contact">Contact</button>
+          <button class="btn px-6 py-3 rounded-lg border border-white/6 text-lg" data-tab="projects">View Projects</button>
+          <button class="btn btn-primary px-6 py-3 rounded-lg text-lg" data-tab="contact">Contact</button>
         </div>
       </div>
 
       <!-- Enhanced Profile card (Graphics Card Style) -->
-      <aside id="profileCard" class="graphics-card profile-card md:col-span-1 entrance">
+      <aside id="profileCard" class="graphics-card profile-card entrance">
         <div class="card-header">
           <img src="https://files.catbox.moe/la0rsq.jpg" alt="Broken Vzn Avatar" />
           <div>
@@ -603,72 +947,72 @@
     </header>
 
     <!-- Featured Projects Section - Horizontal Carousel -->
-    <section id="projects" class="glass p-8 rounded-2xl mb-10 entrance">
-      <div class="flex items-center justify-between flex-col sm:flex-row gap-4 mb-8">
-        <h2 class="text-3xl font-bold">Featured Projects</h2>
+    <section id="projects" class="glass section entrance">
+      <div class="section-header">
+        <h2>Featured Projects</h2>
         <div class="w-24 accent-line rounded-full"></div>
       </div>
 
       <div class="carousel">
         <div class="carousel-card glass p-6 rounded-xl project-card">
-          <div class="w-16 h-16 rounded-lg bg-gradient-to-br from-[#2563eb] to-[#60a5fa] flex items-center justify-center text-white font-bold text-lg mb-4">BA</div>
-          <h3 class="text-xl font-semibold mb-2">Brain Album UI</h3>
-          <p class="text-sm mb-4" style="color:var(--muted-dark)">Modern UI for music album visualization with smooth animations.</p>
+          <div class="w-16 h-16 rounded-lg bg-gradient-to-br flex items-center justify-center text-white font-bold text-lg mb-4">BA</div>
+          <h3>Brain Album UI</h3>
+          <p class="text-sm mb-4 muted">Modern UI for music album visualization with smooth animations.</p>
           <a href="#" class="text-blue-400 hover:underline">View Project →</a>
         </div>
 
         <div class="carousel-card glass p-6 rounded-xl project-card">
-          <div class="w-16 h-16 rounded-lg bg-gradient-to-br from-[#2563eb] to-[#60a5fa] flex items-center justify-center text-white font-bold text-lg mb-4">RL</div>
-          <h3 class="text-xl font-semibold mb-2">Responsive Landing</h3>
-          <p class="text-sm mb-4" style="color:var(--muted-dark)">High-performance landing page optimized for all devices.</p>
+          <div class="w-16 h-16 rounded-lg bg-gradient-to-br flex items-center justify-center text-white font-bold text-lg mb-4">RL</div>
+          <h3>Responsive Landing</h3>
+          <p class="text-sm mb-4 muted">High-performance landing page optimized for all devices.</p>
           <a href="#" class="text-blue-400 hover:underline">View Project →</a>
         </div>
 
         <div class="carousel-card glass p-6 rounded-xl project-card">
-          <div class="w-16 h-16 rounded-lg bg-gradient-to-br from-[#2563eb] to-[#60a5fa] flex items-center justify-center text-white font-bold text-lg mb-4">MA</div>
-          <h3 class="text-xl font-semibold mb-2">Published Mobile App</h3>
-          <p class="text-sm mb-4" style="color:var(--muted-dark)">Cross-platform app with focus on user accessibility.</p>
+          <div class="w-16 h-16 rounded-lg bg-gradient-to-br flex items-center justify-center text-white font-bold text-lg mb-4">MA</div>
+          <h3>Published Mobile App</h3>
+          <p class="text-sm mb-4 muted">Cross-platform app with focus on user accessibility.</p>
           <a href="#" class="text-blue-400 hover:underline">View Project →</a>
         </div>
       </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="glass p-8 rounded-2xl mb-10 entrance">
-      <div class="flex items-center justify-between flex-col sm:flex-row gap-4 mb-8">
-        <h2 class="text-3xl font-bold">About Me</h2>
+    <section id="about" class="glass section entrance">
+      <div class="section-header">
+        <h2>About Me</h2>
         <div class="w-24 accent-line rounded-full"></div>
       </div>
 
-      <p class="text-lg leading-relaxed mb-8" style="color:var(--muted-dark)">
+      <p class="text-lg leading-relaxed mb-8 muted">
         4+ years full-stack experience using modern technologies. Focus on accessibility, performance, and clean design across frontend and backend. I turn ideas into intuitive digital experiences that users love.
       </p>
 
       <div class="flex justify-center">
-        <a href="#" class="px-8 py-4 rounded-lg text-lg font-semibold bg-white/10 hover:bg-white/20 transition-colors" download>Download Resume</a>
+        <a href="#" class="btn px-8 py-4 rounded-lg text-lg font-semibold bg-white/10 hover:bg-white/20 transition-colors download">Download Resume</a>
       </div>
     </section>
 
     <!-- GitHub Repos Section -->
-    <section id="repos" class="glass p-8 rounded-2xl mb-10 entrance">
-      <div class="flex items-center justify-between flex-col sm:flex-row gap-4 mb-8">
-        <h2 class="text-3xl font-bold">GitHub Repos</h2>
+    <section id="repos" class="glass section entrance">
+      <div class="section-header">
+        <h2>GitHub Repos</h2>
         <div class="w-24 accent-line rounded-full"></div>
       </div>
 
-      <div id="reposContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div id="reposContainer" class="grid grid-cols-1 grid-cols-2@sm grid-cols-3@lg gap-6">
         <!-- Dynamic repos will load here -->
         <div class="text-center py-8">
           <div class="loading"></div>
-          <p class="mt-2 text-sm" style="color:var(--muted-dark)">Loading repos...</p>
+          <p class="mt-2 text-sm muted">Loading repos...</p>
         </div>
       </div>
     </section>
 
     <!-- Resume Section -->
-    <section id="resume" class="glass p-8 rounded-2xl mb-10 entrance">
-      <div class="flex items-center justify-between flex-col sm:flex-row gap-4 mb-8">
-        <h2 class="text-3xl font-bold">Resume</h2>
+    <section id="resume" class="glass section entrance">
+      <div class="section-header">
+        <h2>Resume</h2>
         <div class="w-24 accent-line rounded-full"></div>
       </div>
 
@@ -676,16 +1020,16 @@
         <!-- Experience -->
         <div>
           <h3 class="text-2xl font-semibold mb-4">Experience</h3>
-          <ul class="space-y-4">
+          <ul class="space-y-4 list-none">
             <li class="border-l-4 border-blue-500 pl-4">
               <h4 class="font-semibold">Full Stack Developer</h4>
-              <p class="text-sm" style="color:var(--muted-dark)">Freelance - 2021 - Present</p>
-              <p class="text-sm" style="color:var(--muted-dark)">Building responsive web apps with React, Node.js, and modern stacks.</p>
+              <p class="text-sm muted">Freelance - 2021 - Present</p>
+              <p class="text-sm muted">Building responsive web apps with React, Node.js, and modern stacks.</p>
             </li>
             <li class="border-l-4 border-blue-500 pl-4">
               <h4 class="font-semibold">Junior Developer</h4>
-              <p class="text-sm" style="color:var(--muted-dark)">Tech Startup - 2020 - 2021</p>
-              <p class="text-sm" style="color:var(--muted-dark)">Contributed to backend APIs and frontend UIs.</p>
+              <p class="text-sm muted">Tech Startup - 2020 - 2021</p>
+              <p class="text-sm muted">Contributed to backend APIs and frontend UIs.</p>
             </li>
           </ul>
         </div>
@@ -694,12 +1038,12 @@
         <div>
           <h3 class="text-2xl font-semibold mb-4">Skills</h3>
           <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">React</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">Node.js</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">Tailwind CSS</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">MongoDB</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">Git</span>
-            <span class="px-3 py-1 rounded-full bg-white/5 hover:bg-white/10 transition-colors">JavaScript</span>
+            <span class="tag">React</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">Tailwind CSS</span>
+            <span class="tag">MongoDB</span>
+            <span class="tag">Git</span>
+            <span class="tag">JavaScript</span>
           </div>
         </div>
 
@@ -709,25 +1053,25 @@
           <div class="space-y-2">
             <div>
               <h4 class="font-semibold">B.Sc. Computer Science</h4>
-              <p class="text-sm" style="color:var(--muted-dark)">University of Lagos - 2016 - 2020</p>
+              <p class="text-sm muted">University of Lagos - 2016 - 2020</p>
             </div>
           </div>
         </div>
 
         <div class="flex justify-center">
-          <a href="#" class="px-8 py-4 rounded-lg text-lg font-semibold bg-white/10 hover:bg-white/20 transition-colors" download>Download Full Resume PDF</a>
+          <a href="#" class="btn px-8 py-4 rounded-lg text-lg font-semibold bg-white/10 hover:bg-white/20 transition-colors download">Download Full Resume PDF</a>
         </div>
       </div>
     </section>
 
     <!-- Channels & Socials Section -->
-    <section id="socials" class="glass p-8 rounded-2xl mb-10 entrance">
-      <div class="flex items-center justify-between flex-col sm:flex-row gap-4 mb-8">
-        <h2 class="text-3xl font-bold">Channels & Socials</h2>
+    <section id="socials" class="glass section entrance">
+      <div class="section-header">
+        <h2>Channels & Socials</h2>
         <div class="w-24 accent-line rounded-full"></div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 grid-cols-2@md grid-cols-3@lg gap-6">
         <!-- GitHub -->
         <a href="https://github.com/Neaterry6" target="_blank" class="glass p-6 rounded-xl flex items-center gap-4 hover:bg-white/5 transition-colors">
           <div class="social-icon bg-black text-white">
@@ -735,7 +1079,7 @@
           </div>
           <div>
             <h4 class="font-semibold">GitHub</h4>
-            <p class="text-sm" style="color:var(--muted-dark)">Neaterry6</p>
+            <p class="text-sm muted">Neaterry6</p>
           </div>
         </a>
 
@@ -746,7 +1090,7 @@
           </div>
           <div>
             <h4 class="font-semibold">Discord</h4>
-            <p class="text-sm" style="color:var(--muted-dark)">broken015002</p>
+            <p class="text-sm muted">broken015002</p>
           </div>
         </a>
 
@@ -758,7 +1102,7 @@
           </div>
           <div>
             <h4 class="font-semibold">NightCafe</h4>
-            <p class="text-sm" style="color:var(--muted-dark)">Heisbroken</p>
+            <p class="text-sm muted">Heisbroken</p>
           </div>
         </a>
 
@@ -769,7 +1113,7 @@
           </div>
           <div>
             <h4 class="font-semibold">X (Twitter)</h4>
-            <p class="text-sm" style="color:var(--muted-dark)">@LoliPop55697</p>
+            <p class="text-sm muted">@LoliPop55697</p>
           </div>
         </a>
 
@@ -780,7 +1124,7 @@
           </div>
           <div>
             <h4 class="font-semibold">Facebook</h4>
-            <p class="text-sm" style="color:var(--muted-dark)">Broken Vzn</p>
+            <p class="text-sm muted">Broken Vzn</p>
           </div>
         </a>
 
@@ -791,7 +1135,7 @@
           </div>
           <div>
             <h4 class="font-semibold">TikTok</h4>
-            <p class="text-sm" style="color:var(--muted-dark)">@Heisbroken05</p>
+            <p class="text-sm muted">@Heisbroken05</p>
           </div>
         </a>
 
@@ -802,20 +1146,20 @@
           </div>
           <div>
             <h4 class="font-semibold">WhatsApp Channel</h4>
-            <p class="text-sm" style="color:var(--muted-dark)">Main Channel</p>
+            <p class="text-sm muted">Main Channel</p>
           </div>
         </a>
       </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="glass p-8 rounded-2xl entrance">
-      <div class="grid md:grid-cols-2 gap-6 contact-grid">
+    <section id="contact" class="glass section entrance">
+      <div class="contact-grid">
         <div>
           <h2 class="text-3xl font-bold mb-4">Contact</h2>
-          <p class="text-lg mb-6" style="color:var(--muted-dark)">Let's build something great together. Reach out for collaborations or inquiries.</p>
+          <p class="text-lg mb-6 muted">Let's build something great together. Reach out for collaborations or inquiries.</p>
 
-          <div class="space-y-4 text-base" style="color:var(--muted-dark)">
+          <div class="space-y-4 text-base muted">
             <div><span class="text-sm font-medium block">Email</span><div class="font-semibold">brokenvzn@example.com</div></div>
             <div>
               <span class="text-sm font-medium block">WhatsApp</span>
@@ -832,13 +1176,13 @@
           <input class="w-full p-4 rounded-lg bg-transparent border border-white/6 text-lg focus:border-blue-500 transition-all" placeholder="Your Name" required />
           <input class="w-full p-4 rounded-lg bg-transparent border border-white/6 text-lg focus:border-blue-500 transition-all" placeholder="Your Email" required type="email" />
           <textarea class="w-full p-4 rounded-lg bg-transparent border border-white/6 text-lg focus:border-blue-500 transition-all" placeholder="Your Message" rows="5" required></textarea>
-          <button type="submit" class="w-full px-6 py-4 rounded-lg text-lg font-semibold" style="background:linear-gradient(90deg,var(--accent-c1),var(--accent-c2)); color:white;">Send Message</button>
+          <button type="submit" class="w-full px-6 py-4 rounded-lg text-lg font-semibold btn-primary">Send Message</button>
         </form>
       </div>
     </section>
 
     <!-- Footer -->
-    <footer class="mt-10 text-center text-base entrance" style="color:var(--muted-dark)">
+    <footer class="entrance muted">
       © <span id="year"></span> Broken Vzn — Built with code and creativity.
     </footer>
   </div>
@@ -902,9 +1246,9 @@
       applyTheme(current === 'dark' ? 'light' : 'dark');
     });
 
-    // Simplified background (remove waifu for cleaner look, use static blue gradient fallback)
+    // Simplified background (solid dark blue to match image)
     const bgA = document.getElementById('bgA');
-    bgA.style.backgroundImage = `linear-gradient(135deg, #1e293b 0%, #0f172a 100%)`;
+    bgA.style.backgroundImage = `linear-gradient(135deg, var(--bg-dark) 0%, #0f172a 100%)`;
 
     // Cloud parallax on mouse / touch
     const CLOUD = document.getElementById('cloudLayer');
@@ -980,7 +1324,7 @@
           card.className = 'repo-card';
           card.innerHTML = `
             <h3 class="text-lg font-semibold mb-2">${repo.name}</h3>
-            <p class="text-sm mb-4" style="color:var(--muted-dark)">${repo.description || 'No description'}</p>
+            <p class="text-sm mb-4 muted">${repo.description || 'No description'}</p>
             <div class="flex justify-between items-center text-sm">
               <span>⭐ ${repo.stargazers_count}</span>
               ${repo.language ? `<span class="language-badge">${repo.language}</span>` : ''}
@@ -991,7 +1335,7 @@
         });
       } catch (error) {
         console.error('Error fetching repos:', error);
-        document.getElementById('reposContainer').innerHTML = '<p class="text-center py-8 text-sm" style="color:var(--muted-dark)">Error loading repos. Please try again later.</p>';
+        document.getElementById('reposContainer').innerHTML = '<p class="text-center py-8 text-sm muted">Error loading repos. Please try again later.</p>';
       }
     }
     fetchRepos();
@@ -1039,4 +1383,3 @@
   </script>
 </body>
 </html>
- 
